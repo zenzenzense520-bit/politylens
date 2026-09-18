@@ -1,0 +1,67 @@
+{
+  "revision": "da7a4b735ecef70aebdc9c73e409d8a2500d50f3",
+  "retrievedAt": "2026-09-18T09:20:45.8256272Z",
+  "source": "https://github.com/aourednik/historical-basemaps",
+  "snapshots": [
+    {
+      "year": 1900,
+      "filename": "world_1900.geojson",
+      "features": 270,
+      "sha256": "9C9221C851EABA4948E11B2A0B078E89239231F8C74DF0DC321750AE234F10B5"
+    },
+    {
+      "year": 1914,
+      "filename": "world_1914.geojson",
+      "features": 177,
+      "sha256": "A99425F9486E2243835FDC75AD7D82E6DDF3C72FCEF87A63429F3313D830CF19"
+    },
+    {
+      "year": 1920,
+      "filename": "world_1920.geojson",
+      "features": 205,
+      "sha256": "FCE1C97DC6A6095594CBB7EB896CCD5CE8B2D72254E73A24148C0A4EA200849F"
+    },
+    {
+      "year": 1930,
+      "filename": "world_1930.geojson",
+      "features": 200,
+      "sha256": "5666E451125CEB0193532338BFECF6F403E1A4D7FF62F54FD560CAFB0B0B1B61"
+    },
+    {
+      "year": 1938,
+      "filename": "world_1938.geojson",
+      "features": 254,
+      "sha256": "F2565926FED1B197227B7FE126934A43ED75B8FCE007E38BE72A7D21A415D813"
+    },
+    {
+      "year": 1945,
+      "filename": "world_1945.geojson",
+      "features": 227,
+      "sha256": "3005839DB7BCC5256D511B3ABB01F1140C0CCE245189BC5C28E7D557A47BC775"
+    },
+    {
+      "year": 1960,
+      "filename": "world_1960.geojson",
+      "features": 197,
+      "sha256": "6067386755F8FC120A4FCA44F198952A18DA89CD062AA8013D5A0D08CBAD8988"
+    },
+    {
+      "year": 1994,
+      "filename": "world_1994.geojson",
+      "features": 240,
+      "sha256": "5369249D6B9D37D1CB799A87EB7F48783587F6C3B9E6D24DE35FF58A4935C216"
+    },
+    {
+      "year": 2000,
+      "filename": "world_2000.geojson",
+      "features": 240,
+      "sha256": "7DE99C532C410C5175ABBA2D540ED3A21F526F85ABB9DB408EAFEF88B0B7FCB3"
+    },
+    {
+      "year": 2010,
+      "filename": "world_2010.geojson",
+      "features": 240,
+      "sha256": "D18DCBE41DF5E68EC174E5F3887578142BF70FBA72F56E204C9DE5A8571AE0F4"
+    }
+  ]
+}

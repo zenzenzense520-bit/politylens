@@ -1,0 +1,253 @@
+{
+  "publisher": "Correlates of War",
+  "dataset": "National Material Capabilities",
+  "datasetVersion": "v7.0 (abridged)",
+  "retrievedAt": "2026-09-18T07:14:23.720Z",
+  "normalization": {
+    "rule": "per-indicator value / global-max-for-year × 100; C=tpop; E=avg(pec,irst); M=avg(milex,milper); S/W=expert-coded 0-1 in src/data/ppCoding.js",
+    "note": "现代档案 2024 使用 2022 数据年（NMC 最新可用年），同年不伪装"
+  },
+  "source": "https://correlatesofwar.org/data-sets/national-material-capabilities/",
+  "records": [
+    {
+      "iso": "CHN",
+      "ccode": 710,
+      "year": 1966,
+      "dataYear": 1966,
+      "c": 100,
+      "e": 11.89,
+      "m": 46,
+      "raw": {
+        "tpop": 747754,
+        "pec": 199598,
+        "irst": 15320,
+        "milex": 15931440,
+        "milper": 2600
+      }
+    },
+    {
+      "iso": "CHN",
+      "ccode": 710,
+      "year": 1995,
+      "dataYear": 1995,
+      "c": 100,
+      "e": 76.27,
+      "m": 55.93,
+      "raw": {
+        "tpop": 1220224,
+        "pec": 1779017,
+        "irst": 95360,
+        "milex": 32929000,
+        "milper": 2930
+      }
+    },
+    {
+      "iso": "SUN",
+      "ccode": 365,
+      "year": 1937,
+      "dataYear": 1937,
+      "c": 31.88,
+      "e": 26.42,
+      "m": 85.83,
+      "raw": {
+        "tpop": 163388,
+        "pec": 159512,
+        "irst": 17730,
+        "milex": 3446172,
+        "milper": 1433
+      }
+    },
+    {
+      "iso": "DEU",
+      "ccode": 255,
+      "year": 1932,
+      "dataYear": 1932,
+      "c": 13.21,
+      "e": 31.83,
+      "m": 6.71,
+      "raw": {
+        "tpop": 64911,
+        "pec": 135613,
+        "irst": 5771,
+        "milex": 149553,
+        "milper": 114
+      }
+    },
+    {
+      "iso": "DEU",
+      "ccode": 255,
+      "year": 1938,
+      "dataYear": 1938,
+      "c": 13.24,
+      "e": 54.78,
+      "m": 74.97,
+      "raw": {
+        "tpop": 68424,
+        "pec": 232155,
+        "irst": 22656,
+        "milex": 7415163,
+        "milper": 782
+      }
+    },
+    {
+      "iso": "JPN",
+      "ccode": 740,
+      "year": 1925,
+      "dataYear": 1925,
+      "c": 12.7,
+      "e": 3.7,
+      "m": 15.27,
+      "raw": {
+        "tpop": 59737,
+        "pec": 35578,
+        "irst": 1336,
+        "milex": 181598,
+        "milper": 306
+      }
+    },
+    {
+      "iso": "USA",
+      "ccode": 2,
+      "year": 2020,
+      "dataYear": 2020,
+      "c": 23.89,
+      "e": 27.4,
+      "m": 83.42,
+      "raw": {
+        "tpop": 342712,
+        "pec": 3178480,
+        "irst": 72732,
+        "milex": 774527000,
+        "milper": 1360
+      }
+    },
+    {
+      "iso": "CHN",
+      "ccode": 710,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 100,
+      "e": 100,
+      "m": 63.04,
+      "raw": {
+        "tpop": 1433350,
+        "pec": 7370013,
+        "irst": 1017959,
+        "milex": 218639000,
+        "milper": 2035
+      }
+    },
+    {
+      "iso": "USA",
+      "ccode": 2,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 24.05,
+      "e": 27.27,
+      "m": 83.42,
+      "raw": {
+        "tpop": 344775,
+        "pec": 3436075,
+        "irst": 80535,
+        "milex": 838814000,
+        "milper": 1360
+      }
+    },
+    {
+      "iso": "DEU",
+      "ccode": 255,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 5.87,
+      "e": 4.61,
+      "m": 7.66,
+      "raw": {
+        "tpop": 84086,
+        "pec": 412009,
+        "irst": 36860,
+        "milex": 53120000,
+        "milper": 183
+      }
+    },
+    {
+      "iso": "JPN",
+      "ccode": 740,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 8.72,
+      "e": 8.72,
+      "m": 8.87,
+      "raw": {
+        "tpop": 124998,
+        "pec": 638973,
+        "irst": 89227,
+        "milex": 46954000,
+        "milper": 247
+      }
+    },
+    {
+      "iso": "GBR",
+      "ccode": 200,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 4.76,
+      "e": 1.8,
+      "m": 7.99,
+      "raw": {
+        "tpop": 68179,
+        "pec": 221539,
+        "irst": 5963,
+        "milex": 72184000,
+        "milper": 150
+      }
+    },
+    {
+      "iso": "FRA",
+      "ccode": 220,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 4.62,
+      "e": 1.91,
+      "m": 8.23,
+      "raw": {
+        "tpop": 66277,
+        "pec": 192873,
+        "irst": 12119,
+        "milex": 54258000,
+        "milper": 203
+      }
+    },
+    {
+      "iso": "IND",
+      "ccode": 750,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 99.45,
+      "e": 20.4,
+      "m": 40.21,
+      "raw": {
+        "tpop": 1425423,
+        "pec": 2099277,
+        "irst": 125377,
+        "milex": 72768000,
+        "milper": 1460
+      }
+    },
+    {
+      "iso": "RUS",
+      "ccode": 365,
+      "year": 2024,
+      "dataYear": 2022,
+      "c": 10.16,
+      "e": 13.3,
+      "m": 33.7,
+      "raw": {
+        "tpop": 145580,
+        "pec": 1441163,
+        "irst": 71746,
+        "milex": 74742000,
+        "milper": 1190
+      }
+    }
+  ]
+}

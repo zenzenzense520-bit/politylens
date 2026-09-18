@@ -1,0 +1,19 @@
+.arcgis-container{position:absolute;inset:0;filter:saturate(.72) contrast(1.08)}
+/* 修改：区分目标年与快照年，真实数据与来源面板适应窄屏。 */
+.boundary-notice{position:absolute;z-index:3;top:56px;left:15px;right:15px;padding:10px;background:rgba(7,18,20,.93);border:1px solid #8a744d;color:#f2bd70;font-size:12px;line-height:1.6;pointer-events:none}
+.boundary-notice small{display:block;color:#9bb5b1;font-size:10px}
+.map-controls{flex-wrap:wrap}.strict-toggle{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.source-observations{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.6}
+.source-observations a{color:var(--cyan)}.source-observations details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.source-observations summary{cursor:pointer;color:var(--amber)}.source-note{font-size:10px;line-height:1.7;color:var(--muted);margin:10px 0}
+.observation-row{display:grid;grid-template-columns:1fr auto;gap:3px;padding:8px 0;border-bottom:1px solid var(--line)}
+.observation-row small{grid-column:1/-1;color:var(--muted);font-size:9px;overflow-wrap:anywhere}.eiu-bars .bar-row{grid-template-columns:90px 1fr 35px}.eiu-bars a{font-size:11px}
+.event-detail small{display:block;color:var(--muted);margin-top:6px}
+.regime-score small{display:block;color:var(--muted);font-size:8px;margin-top:3px}
+.leader-line{max-width:310px;line-height:1.6!important}.leader-line b{color:var(--amber);margin-right:4px}.leader-line a{color:var(--cyan);font-size:10px;margin-left:5px}
+@media(min-width:861px){.sidebar,.inspector{max-height:850px;overflow-y:auto}.workspace{align-items:start}.sidebar{height:850px}.map-toolbar{flex-wrap:wrap;gap:10px}}
+.map-overlay{position:absolute;z-index:2;left:15px;top:14px;right:15px;display:flex;justify-content:space-between;pointer-events:none}
+.map-provider,.map-scale{font:9px var(--mono);letter-spacing:.1em;color:#9bc7c0;background:rgba(7,18,20,.78);border:1px solid rgba(112,216,199,.25);padding:6px 8px}
+.map-scale{color:#718c88;border-color:rgba(112,216,199,.12)}
+.map-legend{z-index:2;background:rgba(7,18,20,.78);padding:7px 8px}
+.import-tools{border:1px solid var(--line);padding:9px;margin-top:10px;display:flex;flex-direction:column;gap:5px}.import-tools button{background:#17302f;color:var(--cyan);padding:7px;text-align:left;font-size:10px}.import-tools small{color:var(--muted);font:8px var(--mono)}.import-message{color:var(--amber)!important;line-height:1.4}.pp-equation{border-top:1px solid var(--line);margin-top:13px;padding-top:10px;display:grid;grid-template-columns:1fr auto;gap:4px;align-items:center}.pp-equation span,.pp-equation small{color:var(--muted);font:9px var(--mono)}.pp-equation strong{color:var(--amber);font:14px var(--mono);text-align:right}.pp-equation small{grid-column:1 / -1}

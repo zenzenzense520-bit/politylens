@@ -1,0 +1,147 @@
+{
+  "revision": "da7a4b735ecef70aebdc9c73e409d8a2500d50f3",
+  "retrievedAt": "2026-09-18T09:20:45.8256272Z",
+  "generatedAt": "2026-09-18T09:20:50.304Z",
+  "source": "https://github.com/aourednik/historical-basemaps",
+  "policy": "原始文件保存在 raw/；应用读取 corrected/。修正字段保留 SOURCE_* 和 CORRECTION_SOURCE。",
+  "references": {
+    "manchukuo": "https://artsandculture.google.com/entity/manchukuo/m0fctx?hl=en",
+    "qing": "https://en.wikipedia.org/wiki/Qing_dynasty",
+    "xinjiang": "https://en.wikipedia.org/wiki/Xinjiang_under_Qing_rule",
+    "tibet1965": "https://en.wikipedia.org/wiki/Tibet_Autonomous_Region"
+  },
+  "rawSnapshots": [
+    {
+      "year": 1900,
+      "filename": "world_1900.geojson",
+      "features": 270,
+      "sha256": "9C9221C851EABA4948E11B2A0B078E89239231F8C74DF0DC321750AE234F10B5"
+    },
+    {
+      "year": 1914,
+      "filename": "world_1914.geojson",
+      "features": 177,
+      "sha256": "A99425F9486E2243835FDC75AD7D82E6DDF3C72FCEF87A63429F3313D830CF19"
+    },
+    {
+      "year": 1920,
+      "filename": "world_1920.geojson",
+      "features": 205,
+      "sha256": "FCE1C97DC6A6095594CBB7EB896CCD5CE8B2D72254E73A24148C0A4EA200849F"
+    },
+    {
+      "year": 1930,
+      "filename": "world_1930.geojson",
+      "features": 200,
+      "sha256": "5666E451125CEB0193532338BFECF6F403E1A4D7FF62F54FD560CAFB0B0B1B61"
+    },
+    {
+      "year": 1938,
+      "filename": "world_1938.geojson",
+      "features": 254,
+      "sha256": "F2565926FED1B197227B7FE126934A43ED75B8FCE007E38BE72A7D21A415D813"
+    },
+    {
+      "year": 1945,
+      "filename": "world_1945.geojson",
+      "features": 227,
+      "sha256": "3005839DB7BCC5256D511B3ABB01F1140C0CCE245189BC5C28E7D557A47BC775"
+    },
+    {
+      "year": 1960,
+      "filename": "world_1960.geojson",
+      "features": 197,
+      "sha256": "6067386755F8FC120A4FCA44F198952A18DA89CD062AA8013D5A0D08CBAD8988"
+    },
+    {
+      "year": 1994,
+      "filename": "world_1994.geojson",
+      "features": 240,
+      "sha256": "5369249D6B9D37D1CB799A87EB7F48783587F6C3B9E6D24DE35FF58A4935C216"
+    },
+    {
+      "year": 2000,
+      "filename": "world_2000.geojson",
+      "features": 240,
+      "sha256": "7DE99C532C410C5175ABBA2D540ED3A21F526F85ABB9DB408EAFEF88B0B7FCB3"
+    },
+    {
+      "year": 2010,
+      "filename": "world_2010.geojson",
+      "features": 240,
+      "sha256": "D18DCBE41DF5E68EC174E5F3887578142BF70FBA72F56E204C9DE5A8571AE0F4"
+    }
+  ],
+  "snapshots": [
+    {
+      "year": 1900,
+      "filename": "world_1900.geojson",
+      "features": 270,
+      "sha256": "a67a0b9fd8f130fc0bca516413da3ba46e43486370dfc33f57c3a8ae46372277",
+      "corrections": 1
+    },
+    {
+      "year": 1914,
+      "filename": "world_1914.geojson",
+      "features": 177,
+      "sha256": "b419a7b084f1b08021657c853c1373e2924ba0a4024c6174d34ffbf7326b72ca",
+      "corrections": 2
+    },
+    {
+      "year": 1920,
+      "filename": "world_1920.geojson",
+      "features": 205,
+      "sha256": "4d1c5598983d48bc097e928848ca7e2577602dcbb30d8d30650de1d53017b0cf",
+      "corrections": 2
+    },
+    {
+      "year": 1930,
+      "filename": "world_1930.geojson",
+      "features": 200,
+      "sha256": "a7ec25b8c6d45246d7128c87cf72a3323014842416f0a99d33bf4ec3ad11ae60",
+      "corrections": 1
+    },
+    {
+      "year": 1938,
+      "filename": "world_1938.geojson",
+      "features": 256,
+      "sha256": "43fd03f34a287a0382a02f5d9444c856facb0ebc63ccdbe783acfd914f52075b",
+      "corrections": 4
+    },
+    {
+      "year": 1945,
+      "filename": "world_1945.geojson",
+      "features": 227,
+      "sha256": "4f2224e2a5850daf2c6df584e01d1d88284048688fcc73084c28e9d80dccc0c7",
+      "corrections": 2
+    },
+    {
+      "year": 1960,
+      "filename": "world_1960.geojson",
+      "features": 197,
+      "sha256": "4f79992b07fd544c9f7f20ad9ca02c74ee8d79e13ccd6c9c2daaa4d0e12e37e7",
+      "corrections": 1
+    },
+    {
+      "year": 1994,
+      "filename": "world_1994.geojson",
+      "features": 240,
+      "sha256": "ecb7d500dfddfd3c6523d5642aad0b3323bc26c13e6a7eaeb50c61f78ef3465a",
+      "corrections": 0
+    },
+    {
+      "year": 2000,
+      "filename": "world_2000.geojson",
+      "features": 240,
+      "sha256": "39f14f3ada89afd264be25649b11d1d197a5b069f2c571777aa05334f6dd657e",
+      "corrections": 0
+    },
+    {
+      "year": 2010,
+      "filename": "world_2010.geojson",
+      "features": 240,
+      "sha256": "384f525fd81f6927c0cdefd2c540993198036fdde73a4cb4ec0b442a0c0328a0",
+      "corrections": 0
+    }
+  ]
+}

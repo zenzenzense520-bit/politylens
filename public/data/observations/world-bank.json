@@ -1,0 +1,1592 @@
+{
+  "publisher": "World Bank",
+  "retrievedAt": "2026-09-18T09:20:49.9259736Z",
+  "sources": [
+    {
+      "code": "NY.GDP.MKTP.CD",
+      "label": "GDP（现价美元）",
+      "unit": "美元",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.CD?source=2&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-07-13",
+      "sourceId": 2
+    },
+    {
+      "code": "NY.GDP.PCAP.CD",
+      "label": "人均 GDP（现价美元）",
+      "unit": "美元/人",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.PCAP.CD?source=2&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-07-13",
+      "sourceId": 2
+    },
+    {
+      "code": "SP.POP.TOTL",
+      "label": "总人口",
+      "unit": "人",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/SP.POP.TOTL?source=2&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-07-13",
+      "sourceId": 2
+    },
+    {
+      "code": "GOV_WGI_GE.EST",
+      "label": "政府效能（WGI 2025 修订）",
+      "unit": "原始估计值，通常约 -2.5～2.5",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GOV_WGI_GE.EST?source=3&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-03-18",
+      "sourceId": 3
+    },
+    {
+      "code": "GOV_WGI_RL.EST",
+      "label": "法治（WGI 2025 修订）",
+      "unit": "原始估计值，通常约 -2.5～2.5",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GOV_WGI_RL.EST?source=3&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-03-18",
+      "sourceId": 3
+    },
+    {
+      "code": "GOV_WGI_CC.EST",
+      "label": "腐败控制（WGI 2025 修订）",
+      "unit": "原始估计值，通常约 -2.5～2.5",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GOV_WGI_CC.EST?source=3&date=1960:2024&format=json&per_page=10000",
+      "updated": "2026-03-18",
+      "sourceId": 3
+    }
+  ],
+  "records": [
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 18729668435848,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 18201698719564,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 14996414166715.1,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 738190896227.55,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 76854053259.209,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 4685592577804.69,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 4355251953410.78,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3941398957073.94,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2593053091306.13,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 143304275683.979,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3160442622465.08,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2966433692008.09,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2647926055110.05,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 1595219345511.89,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 109306730313.216,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3695539513534.15,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3194559188925.93,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2724001478304.59,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 1349094208616.06,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 108572752102.045,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3760813470500.86,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3167270623260.47,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2674851578587.27,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 360281909643.489,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 45581230504.071,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 4190008188358.57,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 5225933520753.1,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 5189197543645.38,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 5639649753985.77,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 115427351851.278,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2186462268813.08,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 1829186719575.1,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 1493075894362.14,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 395537185734.854,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": null,
+      "status": "missing",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 29298013000000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 23725645000000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 21375281000000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 1995,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 7639749000000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 1966,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 813032758620.69,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 13293.1162269366,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 12887.4357242941,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 10627.4637989619,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 612.680277898627,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 104.50646350178,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 56103.7323182554,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 52349.2459994422,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 47394.8734504469,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 31747.2449398447,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 1870.80540291774,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 46103.0840855884,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 43725.0999521245,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 39169.8606000707,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 26791.8151982369,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 2172.59339649824,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 53341.3131094262,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 47695.6491523474,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 40815.1255364787,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 23252.6157127423,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 1986.74715869685,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 2591.9916607122,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 2239.61384367482,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 1907.04251637669,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 375.17600537305,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 91.0276950517841,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 33797.1014287876,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 41580.739040705,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 41098.9739004553,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 44947.4763611465,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 1167.69027982801,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 14961.8974609375,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 12425.029296875,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 10108.3271484375,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 2665.77978515625,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 86169.6641581917,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 71441.2319805947,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 64465.2971415748,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 1995,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 28690.8757013347,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 1966,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 4136.30829579106,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 1408975000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 1412360000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 1411100000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 1204855000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 735400000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 83516593,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 83196078,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 83160871,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 81678051,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 76600311,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 68551653,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 67842811,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 67601110,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 59541294,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 50311637,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 69281000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 66978000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 66740000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 58019030,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 54648500,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 1450935791,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 1414203896,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 1402617695,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 960301044,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 500740247,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 123975371,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 125681593,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 126261000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 125472000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 98851000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 143669648,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 144746762,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 145245148,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 148375787,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 127468000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "SP.POP.TOTL",
+      "value": 340003797,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "SP.POP.TOTL",
+      "value": 332100166,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "SP.POP.TOTL",
+      "value": 331578104,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 1995,
+      "code": "SP.POP.TOTL",
+      "value": 266278000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 1966,
+      "code": "SP.POP.TOTL",
+      "value": 196560000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.8957842,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.6669456,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.5674972,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.5462994,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.8265941,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.7812546,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.2007009,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.5363267,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.4906558,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.1849099,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.3289695,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.3728014,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.4046051,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.2400136,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 0.3492894,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 2.0879101,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.653038,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.8051167,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": -0.3215539,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": -0.1170517,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": -0.0432286,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.3599787,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.4427774,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "GOV_WGI_GE.EST",
+      "value": 1.4026997,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.579319799999999,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.5386195,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.5093696,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.6257844,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.6349496,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.6271231,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": 0.97866,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.0805521,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.1272001,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.269914,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.3061844,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.3554927,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.0392287,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.1841026,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.1029725,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.5115753,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.5319019,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.5138826,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": -1.15651859999999,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.902773199999999,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": -0.8254091,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "GOV_WGI_RL.EST",
+      "value": 0.9617896,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.0279752,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "GOV_WGI_RL.EST",
+      "value": 1.0043814,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 0.0886811,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 0.0556852,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 0.0531167,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.7734211,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.8243293,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.8713077,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.2182239,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.422803,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.2939757,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.5097548,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.6641761,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.7210258,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.2953362,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.300757,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.254487099999999,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.3570132,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.4554011,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.4301233,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.8911386,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.7788442,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": -0.7746533,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2024,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.0868914,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2021,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.1247591,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2020,
+      "code": "GOV_WGI_CC.EST",
+      "value": 1.124297,
+      "status": "observed",
+      "decimal": 1
+    }
+  ]
+}
