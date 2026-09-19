@@ -55,6 +55,8 @@
 </template>
 
 <script>
+// Vue3 升级：ArcGIS/ECharts 等类实例必须 markRaw，否则会被 Proxy 深度代理导致内部方法 this 绑定失效
+import { markRaw } from 'vue'
 import * as echarts from 'echarts'
 import SourceObservations from './components/SourceObservations.vue'
 import { buildProfiles } from './data/profiles'
@@ -80,7 +82,7 @@ const regimes = buildProfiles(historicalRegimes)
 export default {
   name: 'App',
   components: { SourceObservations },
-  // 修改：将国力组件定义暴露给 Vue 2 模板，避免运行时未定义警告。
+  // 将国力组件等常量暴露给模板，避免运行时未定义警告。
   data: () => ({ regimes, driDimensions, capacityDimensions, presets, historicalYears, PP_COMPONENTS, historicalYear: 1938, strictBoundaries: false, boundaryStatus: '正在初始化地图', boundaryRequest: 0, worldBank: null, nmc: null, current: regimes[4], importedRegimes: [], importMessage: '', importRejected: [], search: '', activeFilter: 'all', mapMetric: 'eiu', selectedPreset: 'liberal', weights: { ...presets.liberal.weights }, compareIds: ['germany-1938', 'germany-1932', 'china-1966', 'usa-2020'], xAxis: 'eiu', yAxis: 'gdpPerCapita', drawerOpen: false, evidenceKey: 'competition', showMethod: false, showComparison: false, activeEvent: regimes[4].events[0], charts: {}, arcgisView: null, arcgisMap: null, arcgisLayer: null, historicalLayer: null }),
   computed: {
     boundarySelection() { return selectBoundary(this.historicalYear, this.strictBoundaries) },
@@ -100,7 +102,8 @@ export default {
   },
   watch: { current() { this.refreshCharts(); this.refreshMap() }, weights: { deep: true, handler: 'refreshCharts' }, mapMetric: 'refreshMap', historicalYear() { this.refreshHistoricalBoundary(); this.refreshMap(); this.refreshScatter() }, strictBoundaries: 'refreshHistoricalBoundary', compareIds: 'refreshScatter', xAxis: 'refreshScatter', yAxis: 'refreshScatter' },
   async mounted() { try { this.worldBank = await loadWorldBank() } catch (error) { this.importMessage = error.message }; try { this.nmc = await loadNmc() } catch (error) { this.importMessage = this.importMessage || error.message }; this.$nextTick(() => { this.initCharts(); this.initMap(); this.refreshCharts() }); window.addEventListener('resize', this.resizeCharts) },
-  beforeDestroy() { Object.values(this.charts).forEach((chart) => chart.dispose()); if (this.historicalLayer) this.historicalLayer.destroy(); if (this.arcgisView) this.arcgisView.destroy(); window.removeEventListener('resize', this.resizeCharts) },
+  // Vue3 升级：beforeDestroy 已重命名为 beforeUnmount，图表/地图/事件监听清理逻辑不变
+  beforeUnmount() { Object.values(this.charts).forEach((chart) => chart.dispose()); if (this.historicalLayer) this.historicalLayer.destroy(); if (this.arcgisView) this.arcgisView.destroy(); window.removeEventListener('resize', this.resizeCharts) },
   methods: {
     score(item) { const value = driScore(item, this.weights); return value === null ? '—' : value.toFixed(1) },
     capacity(item) { const value = capacityScore(item); return value === null ? '—' : value.toFixed(1) },
@@ -117,7 +120,7 @@ export default {
     scrollToComparison() { const element = this.$el.querySelector('.comparison'); if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' }) },
     axisLabel(axis) { return { eiu: 'EIU 民主指数', gdpPerCapita: '人均 GDP（美元）', dri: 'DRI（自定义）', capacity: 'CAP（自定义）', pp: 'Pp 国力' }[axis] || axis },
     observedValue(item, axis) { if (axis === 'eiu') return eiuFor(item.iso, item.year)?.score ?? null; if (axis === 'gdpPerCapita') return this.worldBank?.records.find(row => row.iso === item.iso && row.year === item.year && row.code === 'NY.GDP.PCAP.CD')?.value ?? null; if (axis === 'pp') return calculatePp(this.ppFor(item)).value ?? null; return axisValue(item, axis, this.weights) },
-    initCharts() { this.charts.radar = echarts.init(this.$refs.radar); this.charts.scatter = echarts.init(this.$refs.scatter) },
+    initCharts() { this.charts.radar = markRaw(echarts.init(this.$refs.radar)); this.charts.scatter = markRaw(echarts.init(this.$refs.scatter)) },
     // 修改：0—10 雷达量表分为 5 段，使刻度步长保持为清晰的 2。
     refreshCharts() { if (!this.charts.radar) return; this.charts.radar.setOption({ radar: { center: ['50%', '52%'], radius: '68%', splitNumber: 5, axisName: { color: '#8fa7a4', fontSize: 10 }, splitLine: { lineStyle: { color: '#263b3d' } }, splitArea: { areaStyle: { color: ['#102022', '#0c191b'] } }, axisLine: { lineStyle: { color: '#2b4242' } }, indicator: this.chartDimensions.map((item) => ({ name: item.short, min: 0, max: 10 })) }, series: [{ type: 'radar', data: this.currentEiu || Object.values(this.current.dri).every(value => Number.isFinite(value)) ? [{ value: this.currentEiu ? this.currentEiu.dimensions : this.driDimensions.map((item) => this.current.dri[item.key]), areaStyle: { color: 'rgba(102, 211, 197, .20)' }, lineStyle: { color: '#70d8c7', width: 2 }, itemStyle: { color: '#f5c06f' } }] : [] }] }, { notMerge: true }); this.refreshScatter() },
     // 修改：固定量表使用明确刻度，避免 ECharts 在空数据年份反复尝试对齐刻度。
@@ -125,10 +128,10 @@ export default {
     // 修改：取消带现代国界的底图；只绘制已确认年份的本地历史图层。
     initMap() {
       if (!this.$refs.arcgis) return
-      this.arcgisLayer = new GraphicsLayer()
-      this.arcgisMap = new ArcGISMap({ basemap: null, layers: [this.arcgisLayer] })
-      this.arcgisView = new MapView({ container: this.$refs.arcgis, map: this.arcgisMap, center: [20, 25], zoom: 2,
-        constraints: { minZoom: 1, maxZoom: 8 }, ui: { components: ['zoom', 'compass'] } })
+      this.arcgisLayer = markRaw(new GraphicsLayer())
+      this.arcgisMap = markRaw(new ArcGISMap({ basemap: null, layers: [this.arcgisLayer] }))
+      this.arcgisView = markRaw(new MapView({ container: this.$refs.arcgis, map: this.arcgisMap, center: [20, 25], zoom: 2,
+        constraints: { minZoom: 1, maxZoom: 8 }, ui: { components: ['zoom', 'compass'] } }))
       this.arcgisView.on('click', async event => {
         try {
           const response = await this.arcgisView.hitTest(event)
@@ -148,7 +151,7 @@ export default {
       if (selection.snapshotYear === null) return
       this.boundaryStatus = `正在加载 ${selection.snapshotYear} 年边界…`
       const decade = Math.floor(selection.snapshotYear / 10) * 10
-      const layer = new GeoJSONLayer({ url: `/data/cliopatria/snapshots/${decade}s/world_${selection.snapshotYear}.geojson`,
+      const layer = markRaw(new GeoJSONLayer({ url: `/data/cliopatria/snapshots/${decade}s/world_${selection.snapshotYear}.geojson`,
         title: `ClioPatria 实控快照 ${selection.snapshotYear}`, opacity: 0.9,
         renderer: { type: 'unique-value', field: 'TERRITORIAL_STATUS', defaultSymbol: { type: 'simple-fill', color: [38, 101, 98, 0.3], outline: { color: [112, 216, 199, 0.78], width: 0.8 } }, uniqueValueInfos: [
           { value: 'colony', symbol: { type: 'simple-fill', color: [38, 101, 98, 0.42], outline: { color: [112, 216, 199, 0.85], width: 0.9 } } },
@@ -157,7 +160,7 @@ export default {
         ] },
         // 修改：边界面弹窗也显示国名与已核验领导人，并保留实体和领导人来源链接。
         popupTemplate: { title: '{DISPLAY_NAME}', content: [{ type: 'text', text: `${selection.message}。<br>{POLICY_NOTE}<br><b>领导人：</b>{LEADER}<br><a href="{LEADER_SOURCE_URL}" target="_blank">领导人来源 ↗</a>　<a href="{WIKIPEDIA_URL}" target="_blank">Wikipedia ↗</a>　<a href="{WIKIDATA_URL}" target="_blank">Wikidata ↗</a>　<a href="{SESHAT_URL}" target="_blank">Seshat ↗</a>` },
-          { type: 'fields', fieldInfos: [{ fieldName: 'ADMIN_NAME', label: '分析主体' }, { fieldName: 'TERRITORIAL_STATUS_ZH', label: '领土口径' }, { fieldName: 'SOURCE_NAME', label: 'ClioPatria 实体名' }, { fieldName: 'FromYear', label: '有效起年' }, { fieldName: 'ToYear', label: '有效止年' }, { fieldName: 'Area', label: '面积（平方公里）', format: { digitSeparator: true, places: 0 } }, { fieldName: 'Wikidata', label: 'Wikidata ID' }, { fieldName: 'SeshatID', label: 'Seshat ID' }] }] } })
+          { type: 'fields', fieldInfos: [{ fieldName: 'ADMIN_NAME', label: '分析主体' }, { fieldName: 'TERRITORIAL_STATUS_ZH', label: '领土口径' }, { fieldName: 'SOURCE_NAME', label: 'ClioPatria 实体名' }, { fieldName: 'FromYear', label: '有效起年' }, { fieldName: 'ToYear', label: '有效止年' }, { fieldName: 'Area', label: '面积（平方公里）', format: { digitSeparator: true, places: 0 } }, { fieldName: 'Wikidata', label: 'Wikidata ID' }, { fieldName: 'SeshatID', label: 'Seshat ID' }] }] } }))
       this.historicalLayer = layer
       this.arcgisMap.add(layer, 0)
       try { await layer.load(); if (request === this.boundaryRequest) this.boundaryStatus = selection.message }

@@ -1,11 +1,8 @@
-import Vue from 'vue'
+// Vue3 升级：入口由 new Vue(...).$mount 改为 createApp(App).mount
+import { createApp } from 'vue'
 import App from './App.vue'
 import './styles.css'
 import './map.css'
 import '@arcgis/core/assets/esri/themes/dark/main.css'
 
-Vue.config.productionTip = false
-
-new Vue({
-  render: (h) => h(App),
-}).$mount('#app')
+createApp(App).mount('#app')

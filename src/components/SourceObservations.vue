@@ -26,12 +26,13 @@
   </section>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+// Vue3 升级：Vue.extend 已移除，改用 defineComponent
+import { defineComponent } from 'vue'
 import { eiuFor, eiuDimensions, eiuSource, whitePaper } from '../data/observations'
 import type { WorldBankDataset } from '../data/observations'
 import { loadWorldBank } from '../api/worldBank'
 // 修改：机构评分、经济观测、官方制度文本分层展示且年份精确匹配。
-export default Vue.extend({
+export default defineComponent({
   props: { iso: { type: String, required: true }, year: { type: Number, required: true } },
   data: () => ({ dataset: null as WorldBankDataset | null, error: '', labels: eiuDimensions, source: eiuSource, paper: whitePaper }),
   computed: {

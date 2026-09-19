@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue2'
+// Vue3 升级：插件由 @vitejs/plugin-vue2 切换为 @vitejs/plugin-vue
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
