@@ -69,14 +69,14 @@ function add1938ManchukuoAndKorea(geo, manchuria1930, korea1945) {
     return !(box.minX < 116 && box.maxX > 134 && box.minY < 35 && box.maxY > 53)
   })
   if (japan.geometry.coordinates.length !== before - 1) throw new Error('1938 年日本/满洲复合面识别失败')
-  japan.properties.ADMIN_STATUS = '日本本土及当时直接管辖区域；满洲国已从该几何中分离'
+  japan.properties.ADMIN_STATUS = '日本本土及当时直接管辖区域'
   japan.properties.CORRECTION_SOURCE = references.manchukuo
 
   const manchukuo = cloneFeature(manchuria1930)
   rememberSource(manchukuo)
   setIdentity(manchukuo, {
     name: 'Manchukuo', subject: 'Manchukuo', partOf: 'Northeast China', leader: '溥仪（康德皇帝）',
-    status: '1932—1945 年日本实际控制的傀儡政权；本图不把它并入日本帝国领土', source: references.manchukuo,
+    status: '1932—1945 年日本实际控制的傀儡政权', source: references.manchukuo,
   })
   geo.features.push(manchukuo)
 
