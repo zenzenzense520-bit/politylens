@@ -1,0 +1,174 @@
+{
+  "source": "https://github.com/Seshat-Global-History-Databank/cliopatria",
+  "sourceCommit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+  "sourceName": "cliopatria_polities_only_v012",
+  "retrievedAt": "2026-09-19T08:36:35.799Z",
+  "license": "CC BY 4.0",
+  "sourceSha256": "5df3b5868cfab8f76030853fa2346ed3cd71171ad807b6f72d783ee2dce6839e",
+  "policyVersion": "2026-09-19",
+  "policy": "殖民地计入宗主国；傀儡政权单列；争议地区按目标年份实控；复合关系不自动视为殖民。",
+  "snapshots": [
+    {
+      "year": 1900,
+      "filename": "1900s/world_1900.geojson",
+      "features": 82,
+      "sha256": "7cfed8a64bfc3bf83c093f74841f7f7171ab512e700c3cdf0fb005d72eb26c9d"
+    },
+    {
+      "year": 1914,
+      "filename": "1910s/world_1914.geojson",
+      "features": 74,
+      "sha256": "646bf5005dd42fca0283ae2b9fe716187484b02aafb94b4ef9e251623a10f940"
+    },
+    {
+      "year": 1919,
+      "filename": "1910s/world_1919.geojson",
+      "features": 87,
+      "sha256": "50c5b7ffb4f1d2a8b17d259379a97e599341b9d07f1e9ab8033c7fa46d760006"
+    },
+    {
+      "year": 1920,
+      "filename": "1920s/world_1920.geojson",
+      "features": 83,
+      "sha256": "a9283493f5cc587e726d75d0ffdae1463114547446f5419bbbf1b7db3a41f187"
+    },
+    {
+      "year": 1925,
+      "filename": "1920s/world_1925.geojson",
+      "features": 85,
+      "sha256": "7b3e3624cf44674e814ceccabd769238eb75e95be624f00b7b78e4352234a75b"
+    },
+    {
+      "year": 1928,
+      "filename": "1920s/world_1928.geojson",
+      "features": 84,
+      "sha256": "13d6981ea0f82a3f08d136d14d2bb2757592ecfeb8a94350e508daf26438a6da"
+    },
+    {
+      "year": 1929,
+      "filename": "1920s/world_1929.geojson",
+      "features": 84,
+      "sha256": "30334627e3e4242a93c4a8657a752d900544a462871ed8e12a8e8d2db9f2fa1f"
+    },
+    {
+      "year": 1930,
+      "filename": "1930s/world_1930.geojson",
+      "features": 84,
+      "sha256": "e20751f2eafd66c65601ca102ae0a86a3cdddb1d9db39f238f897ae2dd49a335"
+    },
+    {
+      "year": 1931,
+      "filename": "1930s/world_1931.geojson",
+      "features": 84,
+      "sha256": "e31b649757f92e5d49690e09437deb7431d48328161761150426f596aaeb23eb"
+    },
+    {
+      "year": 1932,
+      "filename": "1930s/world_1932.geojson",
+      "features": 87,
+      "sha256": "59347ae072743153c7515a1bd0431ae89b227fca536a46133fba19ae3574536d"
+    },
+    {
+      "year": 1933,
+      "filename": "1930s/world_1933.geojson",
+      "features": 87,
+      "sha256": "870318d67205b55f5edcc23841906d795223e53e9f3aa75d8f7602e850c19758"
+    },
+    {
+      "year": 1937,
+      "filename": "1930s/world_1937.geojson",
+      "features": 88,
+      "sha256": "0772d88f15540ea4d9898dae65a8fbc110de64c3196961750e7b4d6690f17e4a"
+    },
+    {
+      "year": 1938,
+      "filename": "1930s/world_1938.geojson",
+      "features": 88,
+      "sha256": "5978238c1fa56600d2792ad1768afea283720d2acdbd33e0373b038de2bdd0ed"
+    },
+    {
+      "year": 1941,
+      "filename": "1940s/world_1941.geojson",
+      "features": 73,
+      "sha256": "166674b75ebd00e10b2c14ff213332e558ea21d6978d4d362a94ef5971fe2fb3"
+    },
+    {
+      "year": 1945,
+      "filename": "1940s/world_1945.geojson",
+      "features": 74,
+      "sha256": "bedc2c2edcdc7d56f31136cdeab84975ad36dcd911f2354db5f1501479aa926b"
+    },
+    {
+      "year": 1954,
+      "filename": "1950s/world_1954.geojson",
+      "features": 94,
+      "sha256": "d56f79441416173286e39ff4c8be3060ed49ac7bf5995cec3baa953e047795de"
+    },
+    {
+      "year": 1960,
+      "filename": "1960s/world_1960.geojson",
+      "features": 104,
+      "sha256": "47f5896a8106077becba88a5be515a261088756c12409b36f3675ff0c73bbaab"
+    },
+    {
+      "year": 1965,
+      "filename": "1960s/world_1965.geojson",
+      "features": 127,
+      "sha256": "8a2c84f4002981d2d674864dcd143c8179b2de389f592a74c9c2e9b922d603e1"
+    },
+    {
+      "year": 1966,
+      "filename": "1960s/world_1966.geojson",
+      "features": 127,
+      "sha256": "7082367f70ed1772361f0f55010ced22e56de735aa43d46916498d55d26c6e98"
+    },
+    {
+      "year": 1978,
+      "filename": "1970s/world_1978.geojson",
+      "features": 156,
+      "sha256": "2fcab63d5f68eea65da31347b9527bea0290eecc004312d1d91a28f22e6d774c"
+    },
+    {
+      "year": 1992,
+      "filename": "1990s/world_1992.geojson",
+      "features": 186,
+      "sha256": "0702792f11396ac4b64b91d101aa241b8900c528f7a5f56857c8e14736e04a5a"
+    },
+    {
+      "year": 1994,
+      "filename": "1990s/world_1994.geojson",
+      "features": 186,
+      "sha256": "93b85fd18c654a8f22a26883a6a17c18e7b6e1e63f2e778c80ee1e25703ca71f"
+    },
+    {
+      "year": 1995,
+      "filename": "1990s/world_1995.geojson",
+      "features": 186,
+      "sha256": "93a07a6a68d7490404b85d9e7339ef91c51c9e93b11d4809fcb01cb8d8ff2c0f"
+    },
+    {
+      "year": 2000,
+      "filename": "2000s/world_2000.geojson",
+      "features": 189,
+      "sha256": "6a284bf28ec0a50c7c936bd82c1f9c911765690168f95d734061fd27c908d24a"
+    },
+    {
+      "year": 2010,
+      "filename": "2010s/world_2010.geojson",
+      "features": 188,
+      "sha256": "8405550ff7bd3854d3bab29cf822cf8a7601b5250e4fc2a2447e61510fdf169d"
+    },
+    {
+      "year": 2020,
+      "filename": "2020s/world_2020.geojson",
+      "features": 192,
+      "sha256": "4e098450071e0a1c97b37a80a619bfecc3438918f2f294043e037ecf2b366250"
+    },
+    {
+      "year": 2024,
+      "filename": "2020s/world_2024.geojson",
+      "features": 192,
+      "sha256": "68bc45ecc3eb77191699e05f0b8272ac6f4439d4509a396a400fe8363fe18048"
+    }
+  ]
+}

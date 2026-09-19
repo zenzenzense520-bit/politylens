@@ -4,15 +4,15 @@ PolityLens 将历史政权拆分为民主与权利、国家能力和综合国力
 
 ## 当前能力
 
-- 1900—2010 共 10 组历史边界快照，并为缺少同年快照的年份提供明确标注的较早参考快照。
-- 审校 Qing、Xinjiang、Manchukuo、Tibet 等东亚历史边界显示问题，同时保留上游原始字段。
+- 以 ClioPatria 生成 1900—2024 共 27 组同年实控快照，覆盖界面全部可选年份，并保留 1654 条人文政治时段记录。
+- 殖民地计入宗主国，傀儡政权单列，争议地区按目标年份实控；审校 Qing、Xinjiang、Manchukuo、Tibet 等东亚显示问题。
 - 15 个国家—年份档案的国名、政权、领导人和来源展示。
 - EIU 2024、世界银行 WDI/WGI、COW NMC 与《中国的民主》白皮书等数据来源分层展示。
 - 地图、雷达图、时间线、比较图与可追溯的数据导入。
 
 ## 数据边界
 
-历史边界来自 [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps)。修正版用于解决当前产品中的已知显示错误，不代表逐年、逐日的完整国界研究。详细规则见 [历史边界说明](docs/historical-boundaries.md)和[真实数据与年份校验](docs/真实数据与年份校验.md)。
+主边界来自 [Seshat ClioPatria](https://github.com/Seshat-Global-History-Databank/cliopatria)，并用 [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) 审校新疆、西藏和满洲国。快照表达目标年份的一种实控解释，不代表逐日国界研究。详细规则见 [历史边界说明](docs/historical-boundaries.md)和[真实数据与年份校验](docs/真实数据与年份校验.md)。
 
 ## 本地运行
 
@@ -34,4 +34,4 @@ bash scripts/sync-data.sh
 
 ## 验证状态
 
-2026-09-18：数据回归、生产构建和浏览器交互检查通过。浏览器测试覆盖历史年份回退、严格同年模式、15 个档案领导人展示和地图图标弹窗。
+2026-09-19：27 个 ClioPatria 快照通过哈希、年份、空间归属和领土关系回归；生产构建与浏览器检查结果见最新提交。

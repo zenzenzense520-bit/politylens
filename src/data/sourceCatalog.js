@@ -62,6 +62,15 @@ export const sourceCatalog = [
     access: 'GPL-3.0；上游明确要求使用前与其他来源交叉核验',
     allowedFor: ['historical-boundary'],
   },
+  {
+    id: 'cliopatria',
+    title: 'ClioPatria',
+    publisher: 'Seshat Global History Databank',
+    url: 'https://github.com/Seshat-Global-History-Databank/cliopatria',
+    scope: '公元前 3400 年至 2024 年的政治实体、实控几何、面积、有效时段、Wikipedia、Wikidata 与 Seshat ID',
+    access: 'CC BY 4.0；本项目筛选 1900—2024 并声明殖民地、傀儡政权与实控口径的派生修改',
+    allowedFor: ['historical-boundary', 'humanities', 'political-entity'],
+  },
 ]
 
 export function findSource(sourceId) {

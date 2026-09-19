@@ -1,48 +1,35 @@
 # 历史边界图层
 
-PolityLens 首版使用 [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) 的 GeoJSON 快照作为历史边界参考。
+PolityLens 的主历史图层来自 [Seshat Global History Databank / ClioPatria](https://github.com/Seshat-Global-History-Databank/cliopatria)。当前固定上游提交 `ad28a691b7c07c1fca89d0e0636d324667d2a258`，原始数据为 CC BY 4.0。项目保留来源提交、输入文件 SHA-256、抓取时间、每份快照哈希与要素数。
 
 ## 当前快照
 
-2026-09-18 已下载并核验：`1900`、`1914`、`1920`、`1930`、`1938`、`1945`、`1960`、`1994`、`2000`、`2010`。来源固定为上游提交 `da7a4b735ecef70aebdc9c73e409d8a2500d50f3`；`manifest.json` 保存每份文件的 SHA-256、要素数与抓取时间。
+界面使用 27 个同年快照：`1900`、`1914`、`1919`、`1920`、`1925`、`1928`、`1929`、`1930`、`1931`、`1932`、`1933`、`1937`、`1938`、`1941`、`1945`、`1954`、`1960`、`1965`、`1966`、`1978`、`1992`、`1994`、`1995`、`2000`、`2010`、`2020`、`2024`。这些年份覆盖现有全部国家档案，因此不再用 1930 冒充 1932，也不再用 2010 冒充 2024。
 
-选中档案时，地图年份跟随档案年份，图标只显示同年记录。现代国界底图已取消，历史层不再叠加现代国家边界，也不再依赖 ArcGIS API Key。ArcGIS 运行库的部分资源仍可能需要网络。
+快照从 ClioPatria 的政治实体时段记录筛选：只有 `FromYear ≤ 目标年 ≤ ToYear` 的 `POLITY` 要素进入地图，括号包围的帝国聚合面不直接绘制，避免与组成地区重复。ClioPatria 自身说明几何是一种历史领土解释；本项目据此展示目标年份快照，不宣称精确到月日。
 
-默认使用不晚于目标年的最近快照，并在界面显示真实快照年和相差年数，不做边界插值。因此 1932 → 1930、1937 → 1930、1966 → 1960、1995 → 1994、2024 → 2010，原先这些年份空白的问题已经消除。用户可开启“仅限同年边界”；没有同年快照时地图会明确提示并移除边界。这些较早快照只是参考，不代表目标年份的精确边界。
+## 领土关系口径
 
-同年快照也不代表该年每一天的边界完全一致。1938 年等存在年内重大变化，当前上游没有提供统一的月日基准。尚未逐条交叉考证边界，不宣称已经补全逐年国界。
+- 殖民地保留自身名称，同时把 `ADMIN_NAME` 设为宗主国，分析时计入本国领土。
+- 傀儡政权作为独立分析主体，不并入控制国；1932—1945 年满洲国按此规则单列。
+- 争议地区按目标年份实际控制者计入，并以 `de_facto_control` 标明，不把实控表达成主权裁决。
+- 复合政治关系若没有足够证据，不自动推断为殖民地。
+- 新疆在所有目标年份均归入中国；1966 年西藏归入中华人民共和国。上游目标年几何漏出参考点时，使用 historical-basemaps 已审校区域面补足并标注为派生修改。
 
-文件位置：
+地图点击边界面会显示国名、分析主体、领土口径、有效年份、ClioPatria 实体名及 Wikipedia、Wikidata、Seshat 链接。15 个已核验国家—年份同时显示真实领导人和来源；其他边界明确显示“领导人资料待补充”。
+
+## 文件与字段
 
 ```text
-public/data/historical-basemaps/index.json
-public/data/historical-basemaps/manifest.json
-public/data/historical-basemaps/raw/world_<年份>.geojson
-public/data/historical-basemaps/corrected/world_<年份>.geojson
+public/data/cliopatria/manifest.json
+public/data/cliopatria/entities.json
+public/data/cliopatria/snapshots/<年代>/world_<年份>.geojson
+public/data/cliopatria/ATTRIBUTION.md
+public/data/historical-basemaps/{raw,corrected}/world_<年份>.geojson
 ```
 
-## 字段
+关键派生字段包括 `DISPLAY_NAME`、`ADMIN_NAME`、`TERRITORIAL_STATUS`、`POLICY_NOTE`、`SOURCE_NAME`、`LEADER` 和来源链接。坐标为 WGS84 / EPSG:4326；`Area` 沿用 ClioPatria 的 EPSG:6933 面积字段。
 
-- `NAME` / `DISPLAY_NAME`：界面使用的国家或区域名称
-- `SUBJECTO` / `PARTOF`：经过本项目审校的管辖与所属字段
-- `SOURCE_NAME` / `SOURCE_SUBJECTO` / `SOURCE_PARTOF`：上游原始字段，便于复核
-- `LEADER`：该边界条目的领导人；尚未逐国核验时明确写为“待补充”
-- `ADMIN_STATUS` / `CORRECTION_SOURCE`：修正说明与依据
-- `BORDERPRECISION`：1 近似、2 中等、3 由国际法确定
+## 限制与许可
 
-数据为 WGS84 / EPSG:4326。ArcGIS 只提供底图，历史边界由本地 `GeoJSONLayer` 提供。
-
-## 已审校的东亚规则
-
-- 1900 年上游 `Manchu Empire` 改为正式政权名 `Qing Empire`；1914 年仍沿用该名称的要素按年份改为 `China`，同时保留原始名称。
-- 上游单列的新疆区域统一标为 `China · Xinjiang`，`SUBJECTO` 与 `PARTOF` 均为 `China`。其他年份中，新疆随中国整体几何显示。
-- 1938 年从日本复合几何中移除东北中国大面，以 1930 年上游满洲几何单列 `Manchukuo`，标明其为日本实际控制的傀儡政权，不计入日本帝国领土；朝鲜半岛另列为日本统治区域。
-- 1966 年使用 1960 年快照时，西藏区域显示为 `China · Tibet`，`SUBJECTO` 与 `PARTOF` 均为 `China`。
-
-这些规则针对当前产品的显示错误做审校，不替代逐年、逐日的完整边界研究。修正参考包括 [清朝](https://en.wikipedia.org/wiki/Qing_dynasty)、[清朝统治下的新疆](https://en.wikipedia.org/wiki/Xinjiang_under_Qing_rule)、[西藏自治区](https://en.wikipedia.org/wiki/Tibet_Autonomous_Region)以及 [Google Arts & Culture 的满洲国条目](https://artsandculture.google.com/entity/manchukuo/m0fctx?hl=en)。
-
-## 重要限制
-
-该仓库明确说明项目仍在持续修订，历史边界需要与其他来源交叉核验后才适合学术使用。古代和前现代区域可能重叠，现代海岸线与历史海岸线也不一定一致。首版只把数据作为历史可视化参考，不把它自动转换成主权、民主或国家能力事实。
-
-历史边界数据的许可和归属以仓库内 `LICENSE` 与上游仓库说明为准；本项目不移除原始数据文件中的来源边界。使用或重新分发前，应继续检查 GPL-3.0 对派生数据和项目发布方式的要求。
+ClioPatria 数据按 CC BY 4.0 署名使用；historical-basemaps 的审校参考继续保留其上游许可。边界图用于比较和追溯，不替代国际法判断。领导人目前只对界面已有 15 个国家—年份档案完成逐条核验，其余实体保留明确缺失状态。

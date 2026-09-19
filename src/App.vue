@@ -26,11 +26,12 @@
         <div class="map-toolbar"><div><span class="eyebrow">GEOPOLITICAL FIELD</span><h1>制度结构，置于历史坐标中</h1></div><div class="map-controls"><span>地图年份</span><select aria-label="地图年份" v-model.number="historicalYear"><option v-for="year in mapYears" :key="year" :value="year">{{ year }}</option></select><label class="strict-toggle"><input type="checkbox" v-model="strictBoundaries" />仅限同年边界</label><span>图标着色</span><select aria-label="图标着色指标" v-model="mapMetric"><option value="eiu">EIU 原版评分</option><option value="dri">民主与权利</option><option value="capacity">国家能力</option><option value="pp">Pp 国力</option></select></div></div>
         <div class="map-stage panel">
           <div ref="arcgis" class="arcgis-container" aria-label="ArcGIS 世界底图"></div>
-          <div class="map-overlay"><span class="map-provider">ARCGIS / HISTORICAL GEOJSON</span><span class="map-scale">图标 {{ historicalYear }} · 边界 {{ boundarySelection.snapshotYear === null ? "缺失" : boundarySelection.snapshotYear }}</span></div>
-          <div class="boundary-notice" role="status">{{ boundaryStatus }}<small v-if="strictBoundaries">当前仅显示同年边界；关闭后可使用不晚于目标年的最近快照。</small><small v-else>缺少同年快照时使用不晚于目标年的最近快照，并明确标注参考年份；图标仍只显示 {{ historicalYear }} 年的 {{ mapRecords.length }} 个档案。</small></div><div class="map-legend"><span><i class="legend-swatch democratic"></i>高值</span><span><i class="legend-swatch authoritarian"></i>低值</span><span>灰色：无观测</span><span><i class="legend-swatch selected-swatch"></i>当前</span></div>
+          <div class="map-overlay"><span class="map-provider">ARCGIS / CLIOPATRIA DE FACTO</span><span class="map-scale">图标 {{ historicalYear }} · 实控边界 {{ boundarySelection.snapshotYear === null ? "缺失" : boundarySelection.snapshotYear }}</span></div>
+          <!-- 修改：同年快照已存在时直接说明加载成功，只对额外导入年份解释回退。 -->
+          <div class="boundary-notice" role="status">{{ boundaryStatus }}<small v-if="boundarySelection.exact">同年快照已加载；图标显示 {{ historicalYear }} 年的 {{ mapRecords.length }} 个档案。</small><small v-else-if="strictBoundaries">当前仅显示同年边界；关闭后可使用不晚于目标年的最近快照。</small><small v-else>使用不晚于目标年的最近快照并标注参考年份；图标仍只显示 {{ historicalYear }} 年的 {{ mapRecords.length }} 个档案。</small></div><div class="map-legend"><span><i class="legend-swatch democratic"></i>高值</span><span><i class="legend-swatch authoritarian"></i>低值</span><span>灰色：无观测</span><span><i class="legend-swatch selected-swatch"></i>当前</span></div>
           <div class="map-crosshair">＋<span>0° / 0°</span></div>
         </div>
-        <div class="map-footnote"><span>◉ {{ historicalYear }} 年图标 · 共 {{ mapRecords.length }} 条</span><span>边界来源：historical-basemaps · 修正字段与上游原始字段并存</span></div>
+        <div class="map-footnote"><span>◉ {{ historicalYear }} 年图标 · 共 {{ mapRecords.length }} 条</span><span>边界来源：Seshat ClioPatria · 殖民地计入宗主国 · 傀儡政权单列 · 争议区按实控</span></div>
       </section>
 
       <aside class="inspector panel">
@@ -146,11 +147,17 @@ export default {
       this.boundaryStatus = selection.message
       if (selection.snapshotYear === null) return
       this.boundaryStatus = `正在加载 ${selection.snapshotYear} 年边界…`
-      const layer = new GeoJSONLayer({ url: `/data/historical-basemaps/corrected/world_${selection.snapshotYear}.geojson`,
-        title: `历史边界快照 ${selection.snapshotYear}`, opacity: 0.9,
-        renderer: { type: 'simple', symbol: { type: 'simple-fill', color: [38, 101, 98, 0.3], outline: { color: [112, 216, 199, 0.78], width: 0.8 } } },
-        popupTemplate: { title: '{DISPLAY_NAME}', content: [{ type: 'text', text: `${selection.message}。{ADMIN_STATUS}` },
-          { type: 'fields', fieldInfos: [{ fieldName: 'LEADER', label: '领导人' }, { fieldName: 'SUBJECTO', label: '管辖主体（修正后）' }, { fieldName: 'SOURCE_NAME', label: '上游原始名称' }, { fieldName: 'BORDERPRECISION', label: '上游精度代码' }, { fieldName: 'CORRECTION_SOURCE', label: '修正依据' }] }] } })
+      const decade = Math.floor(selection.snapshotYear / 10) * 10
+      const layer = new GeoJSONLayer({ url: `/data/cliopatria/snapshots/${decade}s/world_${selection.snapshotYear}.geojson`,
+        title: `ClioPatria 实控快照 ${selection.snapshotYear}`, opacity: 0.9,
+        renderer: { type: 'unique-value', field: 'TERRITORIAL_STATUS', defaultSymbol: { type: 'simple-fill', color: [38, 101, 98, 0.3], outline: { color: [112, 216, 199, 0.78], width: 0.8 } }, uniqueValueInfos: [
+          { value: 'colony', symbol: { type: 'simple-fill', color: [38, 101, 98, 0.42], outline: { color: [112, 216, 199, 0.85], width: 0.9 } } },
+          { value: 'puppet', symbol: { type: 'simple-fill', color: [194, 119, 55, 0.5], outline: { color: [255, 191, 94, 0.95], width: 1.2 } } },
+          { value: 'de_facto_control', symbol: { type: 'simple-fill', color: [151, 73, 67, 0.45], outline: { color: [235, 128, 112, 0.95], width: 1 } } },
+        ] },
+        // 修改：边界面弹窗也显示国名与已核验领导人，并保留实体和领导人来源链接。
+        popupTemplate: { title: '{DISPLAY_NAME}', content: [{ type: 'text', text: `${selection.message}。<br>{POLICY_NOTE}<br><b>领导人：</b>{LEADER}<br><a href="{LEADER_SOURCE_URL}" target="_blank">领导人来源 ↗</a>　<a href="{WIKIPEDIA_URL}" target="_blank">Wikipedia ↗</a>　<a href="{WIKIDATA_URL}" target="_blank">Wikidata ↗</a>　<a href="{SESHAT_URL}" target="_blank">Seshat ↗</a>` },
+          { type: 'fields', fieldInfos: [{ fieldName: 'ADMIN_NAME', label: '分析主体' }, { fieldName: 'TERRITORIAL_STATUS_ZH', label: '领土口径' }, { fieldName: 'SOURCE_NAME', label: 'ClioPatria 实体名' }, { fieldName: 'FromYear', label: '有效起年' }, { fieldName: 'ToYear', label: '有效止年' }, { fieldName: 'Area', label: '面积（平方公里）', format: { digitSeparator: true, places: 0 } }, { fieldName: 'Wikidata', label: 'Wikidata ID' }, { fieldName: 'SeshatID', label: 'Seshat ID' }] }] } })
       this.historicalLayer = layer
       this.arcgisMap.add(layer, 0)
       try { await layer.load(); if (request === this.boundaryRequest) this.boundaryStatus = selection.message }

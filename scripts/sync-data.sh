@@ -6,3 +6,4 @@ mkdir -p logs
 # PowerShell 7 按 UTF-8 读取中文脚本，避免 Windows PowerShell 5 的默认编码损坏。
 pwsh.exe -NoProfile -File scripts/data/sync.ps1 2>&1 | tee logs/sync-data.log
 node scripts/data/correct-boundaries.mjs 2>&1 | tee -a logs/sync-data.log
+bash scripts/sync-cliopatria.sh 2>&1 | tee -a logs/sync-data.log
