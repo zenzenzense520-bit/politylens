@@ -7,7 +7,8 @@
 .source-observations a{color:var(--cyan)}.source-observations details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
 .source-observations summary{cursor:pointer;color:var(--amber)}.source-note{font-size:10px;line-height:1.7;color:var(--muted);margin:10px 0}
 .observation-row{display:grid;grid-template-columns:1fr auto;gap:3px;padding:8px 0;border-bottom:1px solid var(--line)}
-.observation-row small{grid-column:1/-1;color:var(--muted);font-size:9px;overflow-wrap:anywhere}.eiu-bars .bar-row{grid-template-columns:90px 1fr 35px}.eiu-bars a{font-size:11px}
+/* 修改：V-Dem 的三位小数与 EIU 的两位小数共用观测行，扩大数值列避免窄屏截断。 */
+.observation-row small{grid-column:1/-1;color:var(--muted);font-size:9px;overflow-wrap:anywhere}.eiu-bars .bar-row{grid-template-columns:90px minmax(0,1fr) 46px}.eiu-bars a{font-size:11px}
 .event-detail small{display:block;color:var(--muted);margin-top:6px}
 .regime-score small{display:block;color:var(--muted);font-size:8px;margin-top:3px}
 .leader-line{max-width:310px;line-height:1.6!important}.leader-line b{color:var(--amber);margin-right:4px}.leader-line a{color:var(--cyan);font-size:10px;margin-left:5px}

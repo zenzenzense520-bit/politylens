@@ -7,3 +7,5 @@ mkdir -p logs
 pwsh.exe -NoProfile -File scripts/data/sync.ps1 2>&1 | tee logs/sync-data.log
 node scripts/data/correct-boundaries.mjs 2>&1 | tee -a logs/sync-data.log
 bash scripts/sync-cliopatria.sh 2>&1 | tee -a logs/sync-data.log
+# 修改：同步 V-Dem 五大民主指数并保留来源哈希。
+bash scripts/sync-vdem.sh 2>&1 | tee -a logs/sync-data.log

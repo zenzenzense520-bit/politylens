@@ -23,7 +23,8 @@
       </aside>
 
       <section class="map-column">
-        <div class="map-toolbar"><div><span class="eyebrow">GEOPOLITICAL FIELD</span><h1>制度结构，置于历史坐标中</h1></div><div class="map-controls"><span>地图年份</span><select aria-label="地图年份" v-model.number="historicalYear"><option v-for="year in mapYears" :key="year" :value="year">{{ year }}</option></select><label class="strict-toggle"><input type="checkbox" v-model="strictBoundaries" />仅限同年边界</label><span>图标着色</span><select aria-label="图标着色指标" v-model="mapMetric"><option value="eiu">EIU 原版评分</option><option value="dri">民主与权利</option><option value="capacity">国家能力</option><option value="pp">Pp 国力</option></select></div></div>
+        <!-- 修改：地图着色选项直接标明 V-Dem 使用 OWID 处理版。 -->
+        <div class="map-toolbar"><div><span class="eyebrow">GEOPOLITICAL FIELD</span><h1>制度结构，置于历史坐标中</h1></div><div class="map-controls"><span>地图年份</span><select aria-label="地图年份" v-model.number="historicalYear"><option v-for="year in mapYears" :key="year" :value="year">{{ year }}</option></select><label class="strict-toggle"><input type="checkbox" v-model="strictBoundaries" />仅限同年边界</label><span>图标着色</span><select aria-label="图标着色指标" v-model="mapMetric"><option value="eiu">EIU 原版评分</option><option value="vdem">V-Dem / OWID 选举民主</option><option value="dri">民主与权利</option><option value="capacity">国家能力</option><option value="pp">Pp 国力</option></select></div></div>
         <div class="map-stage panel">
           <div ref="arcgis" class="arcgis-container" aria-label="ArcGIS 世界底图"></div>
           <div class="map-overlay"><span class="map-provider">ARCGIS / CLIOPATRIA DE FACTO</span><span class="map-scale">图标 {{ historicalYear }} · 实控边界 {{ boundarySelection.snapshotYear === null ? "缺失" : boundarySelection.snapshotYear }}</span></div>
@@ -63,6 +64,8 @@ import { buildProfiles } from './data/profiles'
 import { eiuFor, eiuDimensions } from './data/observations'
 import { historicalYears, selectBoundary, metricColor } from './utils/historical'
 import { loadWorldBank } from './api/worldBank'
+import { loadVdem } from './api/vdem'
+import { vdemFor } from './data/vdem'
 import ArcGISMap from '@arcgis/core/Map.js'
 import MapView from '@arcgis/core/views/MapView.js'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer.js'
@@ -83,7 +86,7 @@ export default {
   name: 'App',
   components: { SourceObservations },
   // 将国力组件等常量暴露给模板，避免运行时未定义警告。
-  data: () => ({ regimes, driDimensions, capacityDimensions, presets, historicalYears, PP_COMPONENTS, historicalYear: 1938, strictBoundaries: false, boundaryStatus: '正在初始化地图', boundaryRequest: 0, worldBank: null, nmc: null, current: regimes[4], importedRegimes: [], importMessage: '', importRejected: [], search: '', activeFilter: 'all', mapMetric: 'eiu', selectedPreset: 'liberal', weights: { ...presets.liberal.weights }, compareIds: ['germany-1938', 'germany-1932', 'china-1966', 'usa-2020'], xAxis: 'eiu', yAxis: 'gdpPerCapita', drawerOpen: false, evidenceKey: 'competition', showMethod: false, showComparison: false, activeEvent: regimes[4].events[0], charts: {}, arcgisView: null, arcgisMap: null, arcgisLayer: null, historicalLayer: null }),
+  data: () => ({ regimes, driDimensions, capacityDimensions, presets, historicalYears, PP_COMPONENTS, historicalYear: 1938, strictBoundaries: false, boundaryStatus: '正在初始化地图', boundaryRequest: 0, worldBank: null, vdemDataset: null, nmc: null, current: regimes[4], importedRegimes: [], importMessage: '', importRejected: [], search: '', activeFilter: 'all', mapMetric: 'eiu', selectedPreset: 'liberal', weights: { ...presets.liberal.weights }, compareIds: ['germany-1938', 'germany-1932', 'china-1966', 'usa-2020'], xAxis: 'eiu', yAxis: 'gdpPerCapita', drawerOpen: false, evidenceKey: 'competition', showMethod: false, showComparison: false, activeEvent: regimes[4].events[0], charts: {}, arcgisView: null, arcgisMap: null, arcgisLayer: null, historicalLayer: null }),
   computed: {
     boundarySelection() { return selectBoundary(this.historicalYear, this.strictBoundaries) },
     mapYears() { return [...new Set([...this.historicalYears, ...this.allRegimes.map(item => item.year), ...this.current.events.map(event => event.year)])].sort((a, b) => a - b) },
@@ -100,8 +103,9 @@ export default {
     currentPp() { return this.ppFor(this.current) },
     ppResult() { return calculatePp(this.currentPp) },
   },
-  watch: { current() { this.refreshCharts(); this.refreshMap() }, weights: { deep: true, handler: 'refreshCharts' }, mapMetric: 'refreshMap', historicalYear() { this.refreshHistoricalBoundary(); this.refreshMap(); this.refreshScatter() }, strictBoundaries: 'refreshHistoricalBoundary', compareIds: 'refreshScatter', xAxis: 'refreshScatter', yAxis: 'refreshScatter' },
-  async mounted() { try { this.worldBank = await loadWorldBank() } catch (error) { this.importMessage = error.message }; try { this.nmc = await loadNmc() } catch (error) { this.importMessage = this.importMessage || error.message }; this.$nextTick(() => { this.initCharts(); this.initMap(); this.refreshCharts() }); window.addEventListener('resize', this.resizeCharts) },
+  watch: { current() { this.refreshCharts(); this.refreshMap() }, weights: { deep: true, handler: 'refreshCharts' }, mapMetric: 'refreshMap', vdemDataset: 'refreshMap', historicalYear() { this.refreshHistoricalBoundary(); this.refreshMap(); this.refreshScatter() }, strictBoundaries: 'refreshHistoricalBoundary', compareIds: 'refreshScatter', xAxis: 'refreshScatter', yAxis: 'refreshScatter' },
+  // 修改：V-Dem 与既有观测并行读取，读取失败会明确反馈且不阻止地图初始化。
+  async mounted() { try { this.worldBank = await loadWorldBank() } catch (error) { this.importMessage = error.message }; try { this.vdemDataset = await loadVdem() } catch (error) { this.importMessage = this.importMessage || error.message }; try { this.nmc = await loadNmc() } catch (error) { this.importMessage = this.importMessage || error.message }; this.$nextTick(() => { this.initCharts(); this.initMap(); this.refreshCharts() }); window.addEventListener('resize', this.resizeCharts) },
   // Vue3 升级：beforeDestroy 已重命名为 beforeUnmount，图表/地图/事件监听清理逻辑不变
   beforeUnmount() { Object.values(this.charts).forEach((chart) => chart.dispose()); if (this.historicalLayer) this.historicalLayer.destroy(); if (this.arcgisView) this.arcgisView.destroy(); window.removeEventListener('resize', this.resizeCharts) },
   methods: {
@@ -113,13 +117,13 @@ export default {
     applyPreset(key) { this.selectedPreset = key; this.weights = { ...this.presets[key].weights } },
     openEvidence(key) { this.evidenceKey = key; this.drawerOpen = true },
     importFileData(event) { const file = event.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const records = parseImportText(String(reader.result), file.name); const result = importRecords(records, { retrievedAt: new Date().toISOString().slice(0, 10) }); this.importedRegimes = result.records; this.importRejected = result.rejected; this.importMessage = `已导入 ${result.records.length} 条，拒绝 ${result.rejected.length} 条。${result.rejected.length ? '请补齐来源版本、抓取日期和基础字段。' : ''}`; if (result.records[0]) this.selectRegime(result.records[0]) } catch (error) { this.importMessage = `导入失败：${error.message}` } finally { event.target.value = '' } }; reader.readAsText(file, 'utf-8') },
-    pointColor(item) { const value = this.observedValue(item, this.mapMetric); return metricColor(value, this.mapMetric === 'pp' ? PP_MAX_REFERENCE : 10) },
+    pointColor(item) { const value = this.observedValue(item, this.mapMetric); return metricColor(value, this.mapMetric === 'pp' ? PP_MAX_REFERENCE : this.mapMetric === 'vdem' ? 1 : 10) },
     capacityColor(value) { if (value === null) return '#718b88'; if (value >= 80) return '#70d8c7'; if (value >= 60) return '#f2bd70'; return '#da7566' },
     eventPosition(year) { const min = Math.min(...this.current.events.map((event) => event.year)); const max = Math.max(...this.current.events.map((event) => event.year)); return `${max === min ? 50 : ((year - min) / (max - min)) * 90 + 5}%` },
     jumpEvent(event) { this.activeEvent = event; this.historicalYear = event.year },
     scrollToComparison() { const element = this.$el.querySelector('.comparison'); if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' }) },
     axisLabel(axis) { return { eiu: 'EIU 民主指数', gdpPerCapita: '人均 GDP（美元）', dri: 'DRI（自定义）', capacity: 'CAP（自定义）', pp: 'Pp 国力' }[axis] || axis },
-    observedValue(item, axis) { if (axis === 'eiu') return eiuFor(item.iso, item.year)?.score ?? null; if (axis === 'gdpPerCapita') return this.worldBank?.records.find(row => row.iso === item.iso && row.year === item.year && row.code === 'NY.GDP.PCAP.CD')?.value ?? null; if (axis === 'pp') return calculatePp(this.ppFor(item)).value ?? null; return axisValue(item, axis, this.weights) },
+    observedValue(item, axis) { if (axis === 'eiu') return eiuFor(item.iso, item.year)?.score ?? null; if (axis === 'vdem') return vdemFor(this.vdemDataset, item.iso, item.year)?.values.v2x_polyarchy ?? null; if (axis === 'gdpPerCapita') return this.worldBank?.records.find(row => row.iso === item.iso && row.year === item.year && row.code === 'NY.GDP.PCAP.CD')?.value ?? null; if (axis === 'pp') return calculatePp(this.ppFor(item)).value ?? null; return axisValue(item, axis, this.weights) },
     initCharts() { this.charts.radar = markRaw(echarts.init(this.$refs.radar)); this.charts.scatter = markRaw(echarts.init(this.$refs.scatter)) },
     // 修改：0—10 雷达量表分为 5 段，使刻度步长保持为清晰的 2。
     refreshCharts() { if (!this.charts.radar) return; this.charts.radar.setOption({ radar: { center: ['50%', '52%'], radius: '68%', splitNumber: 5, axisName: { color: '#8fa7a4', fontSize: 10 }, splitLine: { lineStyle: { color: '#263b3d' } }, splitArea: { areaStyle: { color: ['#102022', '#0c191b'] } }, axisLine: { lineStyle: { color: '#2b4242' } }, indicator: this.chartDimensions.map((item) => ({ name: item.short, min: 0, max: 10 })) }, series: [{ type: 'radar', data: this.currentEiu || Object.values(this.current.dri).every(value => Number.isFinite(value)) ? [{ value: this.currentEiu ? this.currentEiu.dimensions : this.driDimensions.map((item) => this.current.dri[item.key]), areaStyle: { color: 'rgba(102, 211, 197, .20)' }, lineStyle: { color: '#70d8c7', width: 2 }, itemStyle: { color: '#f5c06f' } }] : [] }] }, { notMerge: true }); this.refreshScatter() },

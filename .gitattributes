@@ -1,3 +1,5 @@
 # 修改：哈希校验依赖稳定字节，ClioPatria 生成数据在 Windows 上固定为 LF。
 public/data/cliopatria/*.json text eol=lf
 public/data/cliopatria/**/*.geojson text eol=lf
+# 修改：V-Dem 摘录的哈希和跨平台读取统一使用 LF。
+public/data/observations/vdem.json text eol=lf

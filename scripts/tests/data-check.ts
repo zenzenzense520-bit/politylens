@@ -8,6 +8,7 @@ import { eiuObservations, type WorldBankDataset } from '../../src/data/observati
 import { buildProfiles } from '../../src/data/profiles'
 import { regimes } from '../../src/data/regimes'
 import { strategicCoding } from '../../src/data/ppCoding'
+import { vdemCodes, vdemFor, type VdemDataset } from '../../src/data/vdem'
 // 修改：回归年份错配、未来边界、缺失零分和苏联身份污染。
 assert.equal(selectBoundary(1938, true).snapshotYear, 1938)
 assert.equal(selectBoundary(1932, true).snapshotYear, 1932)
@@ -144,6 +145,23 @@ assert(worldBank.records.some(row => row.value === null))
 for (const eiu of eiuObservations) {
   assert(worldBank.records.some(row => row.iso === eiu.iso && row.year === eiu.year && row.code === 'NY.GDP.PCAP.CD' && row.value !== null))
 }
+// 修改：V-Dem 必须保留原生量表、来源哈希与国家身份，历史德国可查、苏联不借俄罗斯序列。
+const vdem = parse<VdemDataset>('public/data/observations/vdem.json')
+assert.equal(vdem.version, 'v16 (2026)')
+assert.equal(vdem.license, 'CC BY-SA 4.0')
+// 修改：OWID 会对部分历史领土做回填，产物必须公开此处理过程，避免把 954 条都称为直接原始观测。
+assert.equal(vdem.processor, 'Our World in Data')
+assert.match(vdem.note, /回填/)
+assert.deepEqual(vdem.sources.map(source => source.code), vdemCodes)
+assert(vdem.sources.every(source => source.url.startsWith('https://ourworldindata.org/grapher/') && /^[0-9a-f]{64}$/.test(source.sha256)))
+assert(vdem.records.length >= 900)
+assert.equal(new Set(vdem.records.map(row => `${row.iso}-${row.year}`)).size, vdem.records.length)
+assert(vdem.records.every(row => row.year >= 1900 && row.year <= 2024 && vdemCodes.every(code => row.values[code] === null || (row.values[code] >= 0 && row.values[code] <= 1))))
+assert.equal(typeof vdemFor(vdem, 'DEU', 1932)?.values.v2x_polyarchy, 'number')
+assert.equal(typeof vdemFor(vdem, 'DEU', 1938)?.values.v2x_polyarchy, 'number')
+assert.equal(typeof vdemFor(vdem, 'CHN', 1966)?.values.v2x_polyarchy, 'number')
+assert.equal(vdemFor(vdem, 'SUN', 1937), undefined)
+assert(eiuObservations.every(row => vdemCodes.every(code => typeof vdemFor(vdem, row.iso, row.year)?.values[code] === 'number')))
 interface NmcDataset { records: { iso: string; year: number; c: number | null; e: number | null; m: number | null }[] }
 const nmc = parse<NmcDataset>('public/data/observations/nmc.json')
 assert(Array.isArray(nmc.records) && nmc.records.length === 15)
@@ -155,4 +173,4 @@ for (const row of nmc.records) {
 for (const [id, coding] of Object.entries(strategicCoding)) {
   assert(coding.s >= 0 && coding.s <= 1 && coding.w >= 0 && coding.w <= 1, `${id} S/W 超出 0-1`)
 }
-console.log(`PASS：年份与缺失值回归；${manifest.snapshots.length} 个边界快照哈希；${eiuObservations.length} 国 EIU；${worldBank.records.length} 条世界银行记录；${nmc.records.length} 条 NMC 国力；${Object.keys(strategicCoding).length} 组 S/W 编码。`)
+console.log(`PASS：年份与缺失值回归；${manifest.snapshots.length} 个边界快照哈希；${eiuObservations.length} 国 EIU；${vdem.records.length} 条 V-Dem 五指数；${worldBank.records.length} 条世界银行记录；${nmc.records.length} 条 NMC 国力；${Object.keys(strategicCoding).length} 组 S/W 编码。`)

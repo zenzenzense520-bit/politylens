@@ -21,10 +21,11 @@ export const sourceCatalog = [
     id: 'v-dem',
     title: 'V-Dem Dataset and Methodology',
     publisher: 'Varieties of Democracy Institute',
-    url: 'https://www.v-dem.net/about/v-dem-project/methodology/',
+    url: 'https://www.v-dem.net/data/the-v-dem-dataset/',
     scope: '选举、自由、参与、协商和平等多种民主原则的历史测量',
-    access: '按 V-Dem 数据许可和版本说明使用',
-    allowedFor: ['dri'],
+    // 修改：区分 V-Dem 原始数据与 OWID 按历史所属政权回填的处理版序列。
+    access: 'v16 五个指数经 OWID 处理后筛选八国 1900—2024 年；部分前独立年份可能按历史所属政权回填，未逐条核定；CC BY-SA 4.0 署名共享',
+    allowedFor: ['raw'],
   },
   {
     id: 'world-bank-wgi',
