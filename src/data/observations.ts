@@ -27,9 +27,10 @@ export const countries: Country[] = [
   { iso: 'GBR', country: '英国', coords: [-2, 54] }, { iso: 'FRA', country: '法国', coords: [2, 47] },
   { iso: 'IND', country: '印度', coords: [79, 22] }, { iso: 'RUS', country: '俄罗斯', coords: [90, 60] },
 ]
-export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: number }
+// 修改：年度 WDI 来源保留响应哈希及覆盖计数；旧 WGI 快照没有这三项，故字段可选。
+export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: number; sha256?: string; rows?: number; nonNull?: number }
 export interface WorldBankRecord { iso: string; year: number; code: string; value: number | null; status: string; decimal: number }
-export interface WorldBankDataset { publisher: string; retrievedAt: string; sources: WorldBankSource[]; records: WorldBankRecord[] }
+export interface WorldBankDataset { publisher: string; retrievedAt: string; license: string; period: [number, number]; note: string; sources: WorldBankSource[]; records: WorldBankRecord[] }
 export function eiuFor(iso: string, year: number): EiuObservation | undefined {
   return eiuObservations.find(row => row.iso === iso && row.year === year)
 }

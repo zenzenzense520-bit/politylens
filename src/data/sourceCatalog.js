@@ -23,8 +23,8 @@ export const sourceCatalog = [
     publisher: 'Varieties of Democracy Institute',
     url: 'https://www.v-dem.net/data/the-v-dem-dataset/',
     scope: '选举、自由、参与、协商和平等多种民主原则的历史测量',
-    // 修改：区分 V-Dem 原始数据与 OWID 按历史所属政权回填的处理版序列。
-    access: 'v16 五个指数经 OWID 处理后筛选八国 1900—2024 年；部分前独立年份可能按历史所属政权回填，未逐条核定；CC BY-SA 4.0 署名共享',
+    // 修改：回填判定锚定 OWID 规则版本，并与历史边界口径分开。
+    access: 'v16 五个指数经 OWID 处理后筛选八国 1900—2024 年；逐条按固定版本的 OWID 跨政权回填规则判定，未回填不等于现代国界；CC BY-SA 4.0 署名共享',
     allowedFor: ['raw'],
   },
   {
@@ -50,8 +50,9 @@ export const sourceCatalog = [
     title: 'World Bank Indicators API',
     publisher: 'World Bank',
     url: 'https://data.worldbank.org/',
-    scope: 'GDP、人口、教育、能源等可下载指标',
-    access: '通过 API 或下载文件导入，保留指标代码和年份',
+    scope: '八国 1960—2024 年现价与不变价 GDP、人均 GDP、实际增长率和人口',
+    // 修改：年度 WDI 摘录保留 API 空值与来源，不把未接入的其他世界银行指标写成已接入。
+    access: 'WDI API 年度摘录；保留指标代码、年份、缺失值和来源哈希；CC BY 4.0',
     allowedFor: ['raw'],
   },
   {

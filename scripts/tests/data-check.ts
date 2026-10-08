@@ -138,29 +138,63 @@ const clio1966 = clioSnapshots.find(row => row.year === 1966)!.geo.features
 const china1966 = clio1966.filter(feature => feature.properties.ADMIN_NAME === "People's Republic of China")
 assert(china1966.some(feature => geometryContains([91, 31], feature.geometry)), '1966 年西藏参考点未落入中国')
 const worldBank = parse<WorldBankDataset>('public/data/observations/world-bank.json')
-assert.equal(worldBank.sources.length, 6)
+// 修改：核验世界银行五项 WDI 的八国逐年完整键空间，并保留原有三项 WGI 快照。
+const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG']
+const wgiCodes = ['GOV_WGI_GE.EST', 'GOV_WGI_RL.EST', 'GOV_WGI_CC.EST']
+const wdiCountries = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS']
+assert.equal(worldBank.license, 'CC BY 4.0')
+assert.deepEqual(worldBank.period, [1960, 2024])
+assert.deepEqual(worldBank.sources.map(source => source.code), [...wdiCodes, ...wgiCodes])
+assert.equal(worldBank.records.length, 2672)
 assert.equal(new Set(worldBank.records.map(row => `${row.iso}-${row.year}-${row.code}`)).size, worldBank.records.length)
 assert(worldBank.records.every(row => row.value === null || Number.isFinite(row.value)))
 assert(worldBank.records.some(row => row.value === null))
+for (const code of wdiCodes) {
+  const source = worldBank.sources.find(item => item.code === code)!
+  const rows = worldBank.records.filter(row => row.code === code)
+  assert.equal(rows.length, wdiCountries.length * 65, `${code} 年度行数错误`)
+  assert.equal(source.rows, rows.length)
+  assert.equal(source.nonNull, rows.filter(row => row.value !== null).length)
+  assert.match(source.sha256 ?? '', /^[0-9a-f]{64}$/)
+  for (const iso of wdiCountries) {
+    const years = rows.filter(row => row.iso === iso).map(row => row.year).sort((a, b) => a - b)
+    assert.deepEqual(years, Array.from({ length: 65 }, (_, index) => 1960 + index), `${iso} ${code} 年份不连续`)
+  }
+}
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length, 72)
+assert.equal(worldBank.records.filter(row => row.iso === 'SUN').length, 0)
+assert(worldBank.records.some(row => row.iso === 'CHN' && row.year === 1978 && row.code === 'NY.GDP.MKTP.KD.ZG' && row.value !== null))
 for (const eiu of eiuObservations) {
   assert(worldBank.records.some(row => row.iso === eiu.iso && row.year === eiu.year && row.code === 'NY.GDP.PCAP.CD' && row.value !== null))
 }
-// 修改：V-Dem 必须保留原生量表、来源哈希与国家身份，历史德国可查、苏联不借俄罗斯序列。
+// 修改：V-Dem 保留原生量表、固定版 OWID 回填依据和有边界的苏联编码单元映射。
 const vdem = parse<VdemDataset>('public/data/observations/vdem.json')
 assert.equal(vdem.version, 'v16 (2026)')
 assert.equal(vdem.license, 'CC BY-SA 4.0')
-// 修改：OWID 会对部分历史领土做回填，产物必须公开此处理过程，避免把 954 条都称为直接原始观测。
+// 修改：逐行状态只说明 OWID 是否跨政权复制，不能据此推断现代国界直接观测。
 assert.equal(vdem.processor, 'Our World in Data')
 assert.match(vdem.note, /回填/)
+assert.equal(vdem.owidEtl.verification, 'verified')
+assert.equal(vdem.owidEtl.commit, '4ad0beba651dcdde8f2808be1a43e146e168b420')
+assert.match(vdem.owidEtl.rulesUrl, /vdem\.countries_impute\.yml$/)
+assert.match(vdem.owidEtl.rulesSha256, /^[0-9a-f]{64}$/)
+assert.match(vdem.owidEtl.namesSha256, /^[0-9a-f]{64}$/)
+assert.equal(vdem.owidEtl.issue, null)
+assert.deepEqual([vdem.sovietMapping.targetIso, vdem.sovietMapping.sourceIso, vdem.sovietMapping.firstYear, vdem.sovietMapping.lastYear, vdem.sovietMapping.vdemCountryUnitId], ['SUN', 'RUS', 1923, 1990, 11])
 assert.deepEqual(vdem.sources.map(source => source.code), vdemCodes)
 assert(vdem.sources.every(source => source.url.startsWith('https://ourworldindata.org/grapher/') && /^[0-9a-f]{64}$/.test(source.sha256)))
-assert(vdem.records.length >= 900)
+assert.equal(vdem.records.length, 954)
 assert.equal(new Set(vdem.records.map(row => `${row.iso}-${row.year}`)).size, vdem.records.length)
-assert(vdem.records.every(row => row.year >= 1900 && row.year <= 2024 && vdemCodes.every(code => row.values[code] === null || (row.values[code] >= 0 && row.values[code] <= 1))))
+assert(vdem.records.every(row => row.year >= 1900 && row.year <= 2024 && row.sourceEntity.length > 0 && row.owidImputationStatus === 'not_imputed' && vdemCodes.every(code => row.values[code] === null || (row.values[code] >= 0 && row.values[code] <= 1))))
 assert.equal(typeof vdemFor(vdem, 'DEU', 1932)?.values.v2x_polyarchy, 'number')
 assert.equal(typeof vdemFor(vdem, 'DEU', 1938)?.values.v2x_polyarchy, 'number')
 assert.equal(typeof vdemFor(vdem, 'CHN', 1966)?.values.v2x_polyarchy, 'number')
-assert.equal(vdemFor(vdem, 'SUN', 1937), undefined)
+assert.equal(typeof vdemFor(vdem, 'SUN', 1937)?.values.v2x_polyarchy, 'number')
+assert.equal(vdemFor(vdem, 'SUN', 1937)?.iso, 'RUS')
+assert.equal(vdemFor(vdem, 'RUS', 1937), undefined)
+assert.equal(vdemFor(vdem, 'SUN', 1922), undefined)
+assert.equal(vdemFor(vdem, 'SUN', 1991), undefined)
+assert.equal(vdemFor(vdem, 'DEU', 1966), undefined)
 assert(eiuObservations.every(row => vdemCodes.every(code => typeof vdemFor(vdem, row.iso, row.year)?.values[code] === 'number')))
 interface NmcDataset { records: { iso: string; year: number; c: number | null; e: number | null; m: number | null }[] }
 const nmc = parse<NmcDataset>('public/data/observations/nmc.json')
