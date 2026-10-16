@@ -9,6 +9,8 @@
 .observation-row{display:grid;grid-template-columns:1fr auto;gap:3px;padding:8px 0;border-bottom:1px solid var(--line)}
 /* 修改：V-Dem 的三位小数与 EIU 的两位小数共用观测行，扩大数值列避免窄屏截断。 */
 .observation-row small{grid-column:1/-1;color:var(--muted);font-size:9px;overflow-wrap:anywhere}.eiu-bars .bar-row{grid-template-columns:90px minmax(0,1fr) 46px}.eiu-bars a{font-size:11px}
+/* 修改：WGI 六维用紧凑表格关联维度、估计值和标准误，窄屏仍可逐行阅读。 */
+.source-group-title{margin-top:12px}.wgi-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:10px}.wgi-table caption{text-align:left;color:#bed0ca;font-size:11px;padding:4px 0}.wgi-table caption a{float:right;font-size:10px}.wgi-table th,.wgi-table td{border-bottom:1px solid var(--line);padding:6px 2px}.wgi-table th{text-align:left;font-weight:500}.wgi-table thead th{color:var(--muted)}.wgi-table thead th:not(:first-child),.wgi-table td{text-align:right}.wgi-table td{font:10px var(--mono);color:var(--amber);white-space:nowrap}
 .event-detail small{display:block;color:var(--muted);margin-top:6px}
 .regime-score small{display:block;color:var(--muted);font-size:8px;margin-top:3px}
 .leader-line{max-width:310px;line-height:1.6!important}.leader-line b{color:var(--amber);margin-right:4px}.leader-line a{color:var(--cyan);font-size:10px;margin-left:5px}

@@ -27,10 +27,33 @@ export const countries: Country[] = [
   { iso: 'GBR', country: '英国', coords: [-2, 54] }, { iso: 'FRA', country: '法国', coords: [2, 47] },
   { iso: 'IND', country: '印度', coords: [79, 22] }, { iso: 'RUS', country: '俄罗斯', coords: [90, 60] },
 ]
-// 修改：年度 WDI 来源保留响应哈希及覆盖计数；旧 WGI 快照没有这三项，故字段可选。
-export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: number; sha256?: string; rows?: number; nonNull?: number }
-export interface WorldBankRecord { iso: string; year: number; code: string; value: number | null; status: string; decimal: number }
-export interface WorldBankDataset { publisher: string; retrievedAt: string; license: string; period: [number, number]; note: string; sources: WorldBankSource[]; records: WorldBankRecord[] }
+// 修改：WDI 与 2026 版 WGI 共用可追溯长表；status 只表示 API 数值是否可用，并非直接观测性质。
+export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: 2 | 3; sha256?: string; rows?: number; nonNull?: number }
+export interface WorldBankRecord { iso: string; year: number; code: string; value: number | null; status: 'observed' | 'missing'; decimal: number }
+export interface WorldBankDataset { publisher: string; retrievedAt: string; license: string; period: [number, number]; note: string; wgiVersion: string; wgiSourceUpdated: string; wgiMethodologyUrl: string; sources: WorldBankSource[]; records: WorldBankRecord[] }
+
+// 修改：六维估计值与标准误在展示层配对，不生成 CAP 分值或填补历史缺口。
+export const wgiDimensions = [
+  { code: 'VA', label: '问责与表达' }, { code: 'PV', label: '政治稳定' },
+  { code: 'GE', label: '政府效能' }, { code: 'RQ', label: '监管质量' },
+  { code: 'RL', label: '法治' }, { code: 'CC', label: '腐败控制' },
+] as const
+export type WgiDimensionCode = typeof wgiDimensions[number]['code']
+export interface WgiPair { code: WgiDimensionCode; label: string; estimate: number | null; standardError: number | null; sourceUrl: string | null; standardErrorUrl: string | null }
+export function wgiPairsFor(dataset: WorldBankDataset, iso: string, year: number): WgiPair[] {
+  const records = new Map(dataset.records.filter(row => row.iso === iso && row.year === year).map(row => [row.code, row.value]))
+  const sources = new Map(dataset.sources.filter(source => source.sourceId === 3).map(source => [source.code, source.url]))
+  return wgiDimensions.map(dimension => {
+    const prefix = `GOV_WGI_${dimension.code}`
+    return {
+      ...dimension,
+      estimate: records.get(`${prefix}.EST`) ?? null,
+      standardError: records.get(`${prefix}.SE`) ?? null,
+      sourceUrl: sources.get(`${prefix}.EST`) ?? null,
+      standardErrorUrl: sources.get(`${prefix}.SE`) ?? null,
+    }
+  })
+}
 export function eiuFor(iso: string, year: number): EiuObservation | undefined {
   return eiuObservations.find(row => row.iso === iso && row.year === year)
 }

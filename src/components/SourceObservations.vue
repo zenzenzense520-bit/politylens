@@ -26,12 +26,24 @@
     <p v-if="error" role="alert">{{ error }}</p>
     <p v-else-if="!dataset">正在加载世界银行观测…</p>
     <div v-else>
-      <div v-for="row in rows" :key="row.code" class="observation-row">
+      <!-- 修改：WDI 保持原始经济与人口数值；六维 WGI 将估计值和标准误成对展示。 -->
+      <div class="card-title source-group-title"><span>WDI · 经济、人口与财政</span><span class="score-chip">{{ wdiRows.length }} 项</span></div>
+      <div v-for="row in wdiRows" :key="row.code" class="observation-row">
         <a :href="row.url" target="_blank" rel="noopener noreferrer">{{ row.label }} ↗</a><strong>{{ format(row.value) }}</strong>
         <small>{{ row.unit }} · {{ year }} · {{ row.code }} · 源更新 {{ row.updated }}</small>
       </div>
-      <!-- 修改：WDI 已覆盖 1960—2024 逐年值，WGI 仍是三个指定年份；横线只表示对应国家、年份、指标无接入值。 -->
-      <p class="source-note">世界银行 · 抓取 {{ dataset.retrievedAt.slice(0, 10) }}。五项 WDI 覆盖 1960—2024 年，三项 WGI 接入 2020、2021、2024 年；— 表示该国家—年份—指标无已接入数值。WGI 保留原始估计值，不等于 CAP；现价 GDP 不适合直接衡量跨年实际增长。</p>
+      <table class="wgi-table">
+        <caption>WGI 六维 · {{ dataset.wgiVersion }} <a :href="dataset.wgiMethodologyUrl" target="_blank" rel="noopener noreferrer">方法 ↗</a></caption>
+        <thead><tr><th scope="col">维度</th><th scope="col">估计值</th><th scope="col">标准误（SE）</th></tr></thead>
+        <tbody>
+          <tr v-for="row in wgiRows" :key="row.code">
+            <th scope="row"><a v-if="row.sourceUrl" :href="row.sourceUrl" target="_blank" rel="noopener noreferrer">{{ row.label }} ↗</a><span v-else>{{ row.label }}</span></th>
+            <td>{{ formatWgi(row.estimate) }}</td><td><a v-if="row.standardErrorUrl" :href="row.standardErrorUrl" target="_blank" rel="noopener noreferrer" :aria-label="`${row.label}标准误 ${formatWgi(row.standardError)}，查看来源`">{{ formatWgi(row.standardError) }}</a><span v-else>{{ formatWgi(row.standardError) }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- 修改：明确 WGI 2026 更新的实际年份缺口、模型不确定性与 CAP 的边界。 -->
+      <p class="source-note">世界银行 · 抓取 {{ dataset.retrievedAt.slice(0, 10) }}。WDI 七项覆盖八国 1960—2024 年；税收占 GDP 与不含赠款财政收入占 GDP 来自 IMF GFS，年度覆盖稀疏，— 保留为缺失，不用于自动评分。WGI 2026 版接入 1996、1998、2000、2002 及 2003—2025 年，1997、1999、2001 年无记录。2025 年数据已存，地图档案暂止于 2024 年。标准误不是置信区间；WGI 是模型估计，不能直接当作 CAP 评分或地图实控疆域的观测；现价 GDP 不适合直接衡量跨年实际增长。</p>
     </div>
     <details v-if="iso === 'CHN'">
       <summary>{{ paper.title }} · 官方制度视角（2021）</summary>
@@ -44,7 +56,7 @@
 <script lang="ts">
 // Vue3 升级：Vue.extend 已移除，改用 defineComponent
 import { defineComponent } from 'vue'
-import { eiuFor, eiuDimensions, eiuSource, whitePaper } from '../data/observations'
+import { eiuFor, eiuDimensions, eiuSource, whitePaper, wgiPairsFor } from '../data/observations'
 import type { WorldBankDataset } from '../data/observations'
 import { loadWorldBank } from '../api/worldBank'
 import { loadVdem } from '../api/vdem'
@@ -64,11 +76,12 @@ export default defineComponent({
       return '该行是否经过 OWID 跨政权回填尚未核定。'
     },
     vdemRows() { return (this.vdemDataset?.sources ?? []).map(source => ({ ...source, value: this.vdemRecord?.values[source.code] ?? null })) },
-    rows() {
-      return (this.dataset?.sources ?? []).map(source => ({ ...source,
+    wdiRows() {
+      return (this.dataset?.sources ?? []).filter(source => source.sourceId === 2).map(source => ({ ...source,
         value: this.dataset?.records.find(row => row.iso === this.iso && row.year === this.year && row.code === source.code)?.value ?? null,
       }))
     },
+    wgiRows() { return this.dataset ? wgiPairsFor(this.dataset, this.iso, this.year) : [] },
   },
   async mounted() {
     try { this.dataset = await loadWorldBank() }
@@ -76,6 +89,9 @@ export default defineComponent({
     try { this.vdemDataset = await loadVdem() }
     catch (error) { this.vdemError = error instanceof Error ? error.message : 'V-Dem 观测加载失败' }
   },
-  methods: { format(value: number | null) { return value === null ? '—' : value.toLocaleString('zh-CN', { maximumFractionDigits: 2 }) } },
+  methods: {
+    format(value: number | null) { return value === null ? '—' : value.toLocaleString('zh-CN', { maximumFractionDigits: 2 }) },
+    formatWgi(value: number | null) { return value === null ? '—' : value.toFixed(3) },
+  },
 })
 </script>

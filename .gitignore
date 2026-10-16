@@ -4,3 +4,4 @@ logs/
 *.log
 .env.local
 .env.*.local
+.playwright-cli/

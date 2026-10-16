@@ -32,9 +32,10 @@ export const sourceCatalog = [
     title: 'Worldwide Governance Indicators',
     publisher: 'World Bank',
     url: 'https://www.worldbank.org/en/publication/worldwide-governance-indicators',
-    scope: '政府效能、法治、腐败控制等治理维度',
-    access: '按 World Bank 数据使用条款和版本说明使用',
-    allowedFor: ['capacity'],
+    scope: '问责与表达、政治稳定、政府效能、监管质量、法治、腐败控制六维估计值与标准误',
+    // 修改：WGI 2026 更新版整体回溯重算，只标为原始模型资料，不授权直接生成 CAP。
+    access: '2026 更新版；1996—2025 年已发布年份，不插值早期空年；CC BY 4.0',
+    allowedFor: ['raw'],
   },
   {
     id: 'cow-nmc',
@@ -50,9 +51,9 @@ export const sourceCatalog = [
     title: 'World Bank Indicators API',
     publisher: 'World Bank',
     url: 'https://data.worldbank.org/',
-    scope: '八国 1960—2024 年现价与不变价 GDP、人均 GDP、实际增长率和人口',
+    scope: '八国 1960—2024 年 GDP、人均 GDP、人口、实际增长率、税收占 GDP 和不含赠款财政收入占 GDP',
     // 修改：年度 WDI 摘录保留 API 空值与来源，不把未接入的其他世界银行指标写成已接入。
-    access: 'WDI API 年度摘录；保留指标代码、年份、缺失值和来源哈希；CC BY 4.0',
+    access: 'WDI API 年度摘录；两项财政比率来自 IMF GFS；保留指标代码、年份、缺失值和来源哈希，不自动折算 CAP；CC BY 4.0',
     allowedFor: ['raw'],
   },
   {

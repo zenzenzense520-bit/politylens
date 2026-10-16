@@ -138,16 +138,21 @@ const clio1966 = clioSnapshots.find(row => row.year === 1966)!.geo.features
 const china1966 = clio1966.filter(feature => feature.properties.ADMIN_NAME === "People's Republic of China")
 assert(china1966.some(feature => geometryContains([91, 31], feature.geometry)), '1966 年西藏参考点未落入中国')
 const worldBank = parse<WorldBankDataset>('public/data/observations/world-bank.json')
-// 修改：核验世界银行五项 WDI 的八国逐年完整键空间，并保留原有三项 WGI 快照。
-const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG']
-const wgiCodes = ['GOV_WGI_GE.EST', 'GOV_WGI_RL.EST', 'GOV_WGI_CC.EST']
+// 修改：核验七项年度 WDI 与 WGI 2026 版六维估计值/标准误的完整键空间及真实缺口。
+const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG', 'GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS']
+const wgiDimensions = ['VA', 'PV', 'GE', 'RQ', 'RL', 'CC']
+const wgiCodes = wgiDimensions.flatMap(dimension => [`GOV_WGI_${dimension}.EST`, `GOV_WGI_${dimension}.SE`])
+const wgiYears = [1996, 1998, 2000, ...Array.from({ length: 24 }, (_, index) => 2002 + index)]
 const wdiCountries = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS']
 assert.equal(worldBank.license, 'CC BY 4.0')
-assert.deepEqual(worldBank.period, [1960, 2024])
+assert.deepEqual(worldBank.period, [1960, 2025])
+assert.equal(worldBank.wgiVersion, '2026 update')
+assert.match(worldBank.wgiMethodologyUrl, /^https:\/\/www\.worldbank\.org\/content\/dam\/sites\/govindicators\/doc\//)
 assert.deepEqual(worldBank.sources.map(source => source.code), [...wdiCodes, ...wgiCodes])
-assert.equal(worldBank.records.length, 2672)
+assert.equal(worldBank.records.length, 6232)
 assert.equal(new Set(worldBank.records.map(row => `${row.iso}-${row.year}-${row.code}`)).size, worldBank.records.length)
 assert(worldBank.records.every(row => row.value === null || Number.isFinite(row.value)))
+assert(worldBank.records.every(row => row.status === (row.value === null ? 'missing' : 'observed')))
 assert(worldBank.records.some(row => row.value === null))
 for (const code of wdiCodes) {
   const source = worldBank.sources.find(item => item.code === code)!
@@ -156,12 +161,36 @@ for (const code of wdiCodes) {
   assert.equal(source.rows, rows.length)
   assert.equal(source.nonNull, rows.filter(row => row.value !== null).length)
   assert.match(source.sha256 ?? '', /^[0-9a-f]{64}$/)
+  if (code.startsWith('GC.')) {
+    assert.equal(source.sourceId, 2)
+    assert(source.unit.includes('IMF GFS'))
+    assert(rows.some(row => row.value !== null), `${code} 没有任何已发布观测`)
+    assert(rows.some(row => row.value === null), `${code} 缺少真实空值，需复核源覆盖变化`)
+  }
   for (const iso of wdiCountries) {
     const years = rows.filter(row => row.iso === iso).map(row => row.year).sort((a, b) => a - b)
     assert.deepEqual(years, Array.from({ length: 65 }, (_, index) => 1960 + index), `${iso} ${code} 年份不连续`)
   }
 }
-assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length, 72)
+for (const code of wgiCodes) {
+  const source = worldBank.sources.find(item => item.code === code)!
+  const rows = worldBank.records.filter(row => row.code === code)
+  assert.equal(source.sourceId, 3)
+  assert.equal(source.updated, '2026-09-25')
+  assert.equal(source.rows, wdiCountries.length * wgiYears.length)
+  assert.equal(source.nonNull, rows.filter(row => row.value !== null).length)
+  assert.match(source.sha256 ?? '', /^[0-9a-f]{64}$/)
+  for (const iso of wdiCountries) {
+    const years = rows.filter(row => row.iso === iso).map(row => row.year).sort((a, b) => a - b)
+    assert.deepEqual(years, wgiYears, `${iso} ${code} 年份不符合 WGI 发布范围`)
+  }
+  assert(rows.every(row => row.status === (row.value === null ? 'missing' : 'observed')))
+  if (code.endsWith('.SE')) assert(rows.every(row => row.value === null || row.value >= 0))
+}
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length, 2592)
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && [1997, 1999, 2001].includes(row.year)).length, 0)
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2025).length, 96)
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2024 && row.value !== null).length, 96)
 assert.equal(worldBank.records.filter(row => row.iso === 'SUN').length, 0)
 assert(worldBank.records.some(row => row.iso === 'CHN' && row.year === 1978 && row.code === 'NY.GDP.MKTP.KD.ZG' && row.value !== null))
 for (const eiu of eiuObservations) {
