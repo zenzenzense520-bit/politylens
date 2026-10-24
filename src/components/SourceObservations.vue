@@ -34,14 +34,23 @@
       </div>
       <table class="wgi-table">
         <caption>WGI 六维 · {{ dataset.wgiVersion }} <a :href="dataset.wgiMethodologyUrl" target="_blank" rel="noopener noreferrer">方法 ↗</a></caption>
-        <thead><tr><th scope="col">维度</th><th scope="col">估计值</th><th scope="col">标准误（SE）</th></tr></thead>
+        <thead><tr><th scope="col">维度</th><th scope="col">估计值</th><th scope="col">标准误（SE）</th><th scope="col" class="wgi-scale-head">估计位置（−2.5～+2.5）</th></tr></thead>
         <tbody>
           <tr v-for="row in wgiRows" :key="row.code">
             <th scope="row"><a v-if="row.sourceUrl" :href="row.sourceUrl" target="_blank" rel="noopener noreferrer">{{ row.label }} ↗</a><span v-else>{{ row.label }}</span></th>
             <td>{{ formatWgi(row.estimate) }}</td><td><a v-if="row.standardErrorUrl" :href="row.standardErrorUrl" target="_blank" rel="noopener noreferrer" :aria-label="`${row.label}标准误 ${formatWgi(row.standardError)}，查看来源`">{{ formatWgi(row.standardError) }}</a><span v-else>{{ formatWgi(row.standardError) }}</span></td>
+            <td class="wgi-scale-cell">
+              <div v-if="wgiScale(row)" class="wgi-scale" role="img" :aria-label="`${row.label} 估计值 ${formatWgi(row.estimate)}，正负一个标准误参考范围 ${formatWgi(row.estimate - row.standardError)} 至 ${formatWgi(row.estimate + row.standardError)}，非置信区间`">
+                <span class="wgi-scale-zero"></span>
+                <span class="wgi-band" :style="{ left: `${wgiScale(row).bandLeft}%`, width: `${wgiScale(row).bandWidth}%` }"></span>
+                <span class="wgi-mark" :class="wgiScale(row).positive ? 'is-positive' : 'is-negative'" :style="{ left: `${wgiScale(row).mark}%` }"></span>
+              </div>
+              <span v-else>—</span>
+            </td>
           </tr>
         </tbody>
       </table>
+      <p class="source-note wgi-scale-legend">刻度中点为 0：菱形为估计值位置，<span class="wgi-band-sample">色带</span>为估计值 ±1 个标准误的参考范围，仅描述模型不确定性，<strong>不是置信区间</strong>，也不用于判断年份间变化是否显著。</p>
       <!-- 修改：明确 WGI 2026 更新的实际年份缺口、模型不确定性与 CAP 的边界。 -->
       <p class="source-note">世界银行 · 抓取 {{ dataset.retrievedAt.slice(0, 10) }}。WDI 七项覆盖八国 1960—2024 年；税收占 GDP 与不含赠款财政收入占 GDP 来自 IMF GFS，年度覆盖稀疏，— 保留为缺失，不用于自动评分。WGI 2026 版接入 1996、1998、2000、2002 及 2003—2025 年，1997、1999、2001 年无记录。2025 年数据已存，地图档案暂止于 2024 年。标准误不是置信区间；WGI 是模型估计，不能直接当作 CAP 评分或地图实控疆域的观测；现价 GDP 不适合直接衡量跨年实际增长。</p>
     </div>
@@ -92,6 +101,14 @@ export default defineComponent({
   methods: {
     format(value: number | null) { return value === null ? '—' : value.toLocaleString('zh-CN', { maximumFractionDigits: 2 }) },
     formatWgi(value: number | null) { return value === null ? '—' : value.toFixed(3) },
+    // WGI 固定刻度 -2.5 至 +2.5；返回刻度标记位置与 ±1 SE 参考带的百分比，缺失时为 null。
+    wgiScale(row: { estimate: number | null; standardError: number | null }) {
+      if (row.estimate === null || row.standardError === null) return null
+      const percent = (value: number) => Math.min(100, Math.max(0, ((value + 2.5) / 5) * 100))
+      const bandLeft = percent(row.estimate - row.standardError)
+      const bandRight = percent(row.estimate + row.standardError)
+      return { mark: percent(row.estimate), bandLeft, bandWidth: Math.max(0, bandRight - bandLeft), positive: row.estimate >= 0 }
+    },
   },
 })
 </script>
