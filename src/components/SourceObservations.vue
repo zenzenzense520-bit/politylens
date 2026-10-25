@@ -51,6 +51,11 @@
         </tbody>
       </table>
       <p class="source-note wgi-scale-legend">刻度中点为 0：菱形为估计值位置，<span class="wgi-band-sample">色带</span>为估计值 ±1 个标准误的参考范围，仅描述模型不确定性，<strong>不是置信区间</strong>，也不用于判断年份间变化是否显著。</p>
+      <!-- 修改（2026-10-25）：新增可收起的单国 WGI 六维时间序列，只读展示、不进入自动评分；历史档案按子组件内时代口径提示。 -->
+      <details class="wgi-ts-details">
+        <summary>WGI 六维 1996—2025 时间序列（估计值 ±1 SE 参考带）</summary>
+        <wgi-timeseries :iso="iso" :year="year" :dataset="dataset" />
+      </details>
       <!-- 修改：明确 WGI 2026 更新的实际年份缺口、模型不确定性与 CAP 的边界。 -->
       <p class="source-note">世界银行 · 抓取 {{ dataset.retrievedAt.slice(0, 10) }}。WDI 七项覆盖八国 1960—2024 年；税收占 GDP 与不含赠款财政收入占 GDP 来自 IMF GFS，年度覆盖稀疏，— 保留为缺失，不用于自动评分。WGI 2026 版接入 1996、1998、2000、2002 及 2003—2025 年，1997、1999、2001 年无记录。2025 年数据已存，地图档案暂止于 2024 年。标准误不是置信区间；WGI 是模型估计，不能直接当作 CAP 评分或地图实控疆域的观测；现价 GDP 不适合直接衡量跨年实际增长。</p>
     </div>
@@ -66,12 +71,15 @@
 // Vue3 升级：Vue.extend 已移除，改用 defineComponent
 import { defineComponent } from 'vue'
 import { eiuFor, eiuDimensions, eiuSource, whitePaper, wgiPairsFor } from '../data/observations'
+// 修改（2026-10-25）：引入单国 WGI 时间序列子组件。
+import WgiTimeseries from './WgiTimeseries.vue'
 import type { WorldBankDataset } from '../data/observations'
 import { loadWorldBank } from '../api/worldBank'
 import { loadVdem } from '../api/vdem'
 import { vdemFor, vdemMappingFor, type VdemDataset } from '../data/vdem'
 // 修改：机构评分、经济观测、官方制度文本分层展示且年份精确匹配。
 export default defineComponent({
+  components: { WgiTimeseries },
   props: { iso: { type: String, required: true }, year: { type: Number, required: true } },
   data: () => ({ dataset: null as WorldBankDataset | null, error: '', vdemDataset: null as VdemDataset | null, vdemError: '', labels: eiuDimensions, source: eiuSource, paper: whitePaper }),
   computed: {

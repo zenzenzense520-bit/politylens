@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { selectBoundary, metricColor, historicalYears } from '../../src/utils/historical'
 import { weightedScore } from '../../src/utils/scoring'
 import { calculatePp } from '../../src/utils/powerEquation'
-import { eiuObservations, type WorldBankDataset } from '../../src/data/observations'
+import { eiuObservations, wgiSeriesFor, type WorldBankDataset } from '../../src/data/observations'
 import { buildProfiles } from '../../src/data/profiles'
 import { regimes } from '../../src/data/regimes'
 import { strategicCoding } from '../../src/data/ppCoding'
@@ -193,6 +193,19 @@ assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length
 assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && [1997, 1999, 2001].includes(row.year)).length, 0)
 assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2025).length, 96)
 assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2024 && row.value !== null).length, 96)
+// 修改（2026-10-25）：wgiSeriesFor 单国六维时间序列取数：八国 × 六维 × 27 点，年份与发布年表一致，EST/SE 非空且 EST 落在 −2.5～+2.5。
+const expectedWgiDimCodes = wgiCodes.filter(code => code.endsWith('.EST')).map(code => code.replace('GOV_WGI_', '').replace('.EST', ''))
+for (const iso of wdiCountries) {
+  const single = wgiSeriesFor(worldBank, iso)
+  assert.equal(single.length, 6)
+  assert.deepEqual(single.map(item => item.code), expectedWgiDimCodes)
+  for (const dimension of single) {
+    assert.equal(dimension.points.length, wgiYears.length)
+    assert.deepEqual(dimension.points.map(point => point.year), wgiYears)
+    assert(dimension.points.every(point => point.estimate !== null && point.standardError !== null))
+    assert(dimension.points.every(point => point.estimate === null || (point.estimate >= -2.5 && point.estimate <= 2.5)))
+  }
+}
 // 2025 年 WDI：五项宏观指标八国均已发布（40 个非空），两项 IMF GFS 财政比率尚未发布（保留 null）。
 const wdiMacroCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG']
 assert.equal(worldBank.records.filter(row => wdiMacroCodes.includes(row.code) && row.year === 2025 && row.value !== null).length, 40)

@@ -30,7 +30,7 @@ export const countries: Country[] = [
 // 修改：WDI 与 2026 版 WGI 共用可追溯长表；status 只表示 API 数值是否可用，并非直接观测性质。
 export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: 2 | 3; sha256?: string; rows?: number; nonNull?: number }
 export interface WorldBankRecord { iso: string; year: number; code: string; value: number | null; status: 'observed' | 'missing'; decimal: number }
-export interface WorldBankDataset { publisher: string; retrievedAt: string; license: string; period: [number, number]; note: string; wgiVersion: string; wgiSourceUpdated: string; wgiMethodologyUrl: string; sources: WorldBankSource[]; records: WorldBankRecord[] }
+export interface WorldBankDataset { publisher: string; retrievedAt: string; license: string; period: [number, number]; note: string; wgiVersion: string; wgiSourceUpdated: string; wgiMethodologyUrl: string; wgiYears: number[]; sources: WorldBankSource[]; records: WorldBankRecord[] }
 
 // 修改：六维估计值与标准误在展示层配对，不生成 CAP 分值或填补历史缺口。
 export const wgiDimensions = [
@@ -53,6 +53,22 @@ export function wgiPairsFor(dataset: WorldBankDataset, iso: string, year: number
       standardErrorUrl: sources.get(`${prefix}.SE`) ?? null,
     }
   })
+}
+// 修改（2026-10-25）：新增单国 WGI 六维时间序列取数，按数据集 wgiYears 发布年份返回 EST/SE，缺失保留 null。
+export interface WgiSeriesPoint { year: number; estimate: number | null; standardError: number | null }
+export interface WgiSeries { code: WgiDimensionCode; label: string; points: WgiSeriesPoint[] }
+export function wgiSeriesFor(dataset: WorldBankDataset, iso: string): WgiSeries[] {
+  const valueAt = (code: string, year: number): number | null =>
+    dataset.records.find(row => row.iso === iso && row.year === year && row.code === code)?.value ?? null
+  return wgiDimensions.map(dimension => ({
+    code: dimension.code,
+    label: dimension.label,
+    points: dataset.wgiYears.map(year => ({
+      year,
+      estimate: valueAt(`GOV_WGI_${dimension.code}.EST`, year),
+      standardError: valueAt(`GOV_WGI_${dimension.code}.SE`, year),
+    })),
+  }))
 }
 export function eiuFor(iso: string, year: number): EiuObservation | undefined {
   return eiuObservations.find(row => row.iso === iso && row.year === year)
