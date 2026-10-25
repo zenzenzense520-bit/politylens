@@ -1,4 +1,5 @@
 // 修改：按固定的 OWID v16 ETL 规则核定逐行回填状态，并记录苏联编码单元映射来源。
+// 修改（2026-10-24）：年份上限由 2024 扩展到 2025（OWID 处理的 v16 已含八国 2025 年五指数）。
 import { createHash } from 'node:crypto'
 import { mkdirSync, renameSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
@@ -113,11 +114,28 @@ function imputationStatus(entity: string, year: number): ImputationStatus {
     ? 'unresolved' : 'not_imputed'
 }
 
+// 修改（2026-10-24）：指标 CSV 全量下载较大，按 10s、30s、90s 指数退避重试三次，HTTP 状态错误不重试。
+async function fetchCsv(url: string, code: string): Promise<string> {
+  let lastError: unknown
+  for (let attempt = 0; attempt <= 3; attempt++) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(180000), headers: { 'User-Agent': 'PolityLens data sync (https://github.com/zenzenzense520-bit/politylens)' } })
+      if (!response.ok) throw new Error(`${code} 下载失败：HTTP ${response.status}`)
+      return await response.text()
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error))
+      const message = lastError instanceof Error ? lastError.message : String(lastError)
+      if (attempt === 3 || /HTTP \d+/.test(message)) break
+      await new Promise(resolve => setTimeout(resolve, [10000, 30000, 90000][attempt]))
+      console.log(`${code} 第 ${attempt + 1} 次重试…`)
+    }
+  }
+  throw new Error(`${code} 下载失败：${lastError instanceof Error ? lastError.message : String(lastError)}`)
+}
+
 for (const item of series) {
   const url = `https://ourworldindata.org/grapher/${item.slug}.csv?v=1&csvType=full&useColumnShortNames=false`
-  const response = await fetch(url, { headers: { 'User-Agent': 'PolityLens data sync (https://github.com/zenzenzense520-bit/politylens)' } })
-  if (!response.ok) throw new Error(`${item.code} 下载失败：HTTP ${response.status}`)
-  const csv = await response.text()
+  const csv = await fetchCsv(url, item.code)
   const lines = csv.trimEnd().split(/\r?\n/)
   const header = parseCsvLine(lines[0].replace(/^\uFEFF/, ''))
   const codeAt = header.indexOf('Code')
@@ -131,7 +149,7 @@ for (const item of series) {
     const iso = cells[codeAt]
     const sourceEntity = cells[entityAt]
     const year = Number(cells[yearAt])
-    if (!countries.has(iso) || !Number.isInteger(year) || year < 1900 || year > 2024) continue
+    if (!countries.has(iso) || !Number.isInteger(year) || year < 1900 || year > 2025) continue
     if (!sourceEntity) throw new Error(`${item.code} ${iso}-${year} 缺少 OWID 实体名称`)
     const raw = cells[valueAt]
     const value = raw === '' ? null : Number(raw)
@@ -159,7 +177,7 @@ if (ruleEvidence.rules && ruleEvidence.knownEntities &&
 }
 const output = {
   publisher: 'Varieties of Democracy (V-Dem) Project', processor: 'Our World in Data', version: 'v16 (2026)',
-  license: 'CC BY-SA 4.0', retrievedAt: new Date().toISOString(), period: [1900, 2024],
+  license: 'CC BY-SA 4.0', retrievedAt: new Date().toISOString(), period: [1900, 2025],
   processingUrl: 'https://ourworldindata.org/grapher/electoral-democracy-index',
   note: '五个 V-Dem v16 指数经 OWID 处理；逐行状态仅说明是否经过 OWID 跨政权回填，不代表现代国界内的直接观测。苏联 SUN 仅在 1923—1990 年按 V-Dem 编码单元 11 映射 RUS；1922 和 1991 不自动映射。0—1 量表，不等同于 EIU 或自定义 DRI。',
   owidEtl: { datasetVersion: '2026-03-17', commit: etlCommit, rulesUrl, rulesSha256, namesUrl, namesSha256,

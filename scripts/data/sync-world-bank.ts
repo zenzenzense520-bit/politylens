@@ -1,4 +1,5 @@
 // 修改：同批同步七项 WDI 与 WGI 2026 六维估计值及标准误，完整校验后才替换快照。
+// 修改（2026-10-24）：WDI 年份范围由 1960—2024 扩展到 1960—2025（五项宏观指标 2025 已发布，两项 GFS 财政比率 2025 暂缺并保留 null）。
 import { createHash } from 'node:crypto'
 import { renameSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
@@ -11,7 +12,7 @@ interface Source { code: string; label: string; unit: string; url: string; updat
 
 const countryCodes = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS'] as const
 const countrySet = new Set<string>(countryCodes)
-const wdiYears = Array.from({ length: 65 }, (_, index) => 1960 + index)
+const wdiYears = Array.from({ length: 66 }, (_, index) => 1960 + index)
 const wgiYears = [1996, 1998, 2000, 2002, ...Array.from({ length: 23 }, (_, index) => 2003 + index)]
 const wgiUpdate = '2026-09-25'
 const wgiVersion = '2026 update'
@@ -44,15 +45,25 @@ function requireObject(value: unknown, context: string): JsonObject {
 }
 
 async function fetchJson(url: string, context: string): Promise<{ parsed: unknown; sha256: string }> {
-  let response: Response
-  try {
-    response = await fetch(url, { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'PolityLens data sync (https://github.com/zenzenzense520-bit/politylens)' } })
-  } catch (error) { throw new Error(`${context} 下载失败：${error instanceof Error ? error.message : String(error)}`) }
-  if (!response.ok) throw new Error(`${context} 下载失败：HTTP ${response.status}`)
-  const body = await response.text()
-  let parsed: unknown
-  try { parsed = JSON.parse(body) } catch { throw new Error(`${context} 响应不是有效 JSON`) }
-  return { parsed, sha256: createHash('sha256').update(body).digest('hex') }
+  // 修改（2026-10-24）：网络/超时错误按 5s、15s、45s 指数退避重试三次，HTTP 状态错误不重试，保证整批同步不因限速中断。
+  let lastError: unknown
+  for (let attempt = 0; attempt <= 3; attempt++) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(90000), headers: { 'User-Agent': 'PolityLens data sync (https://github.com/zenzenzense520-bit/politylens)' } })
+      if (!response.ok) throw new Error(`${context} 下载失败：HTTP ${response.status}`)
+      const body = await response.text()
+      let parsed: unknown
+      try { parsed = JSON.parse(body) } catch { throw new Error(`${context} 响应不是有效 JSON`) }
+      return { parsed, sha256: createHash('sha256').update(body).digest('hex') }
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error))
+      const message = lastError instanceof Error ? lastError.message : String(lastError)
+      if (attempt === 3 || /HTTP \d+/.test(message)) break
+      await new Promise(resolve => setTimeout(resolve, [5000, 15000, 45000][attempt]))
+      console.log(`${context} 第 ${attempt + 1} 次重试…`)
+    }
+  }
+  throw new Error(`${context} 下载失败：${lastError instanceof Error ? lastError.message : String(lastError)}`)
 }
 
 async function verifyWgiVersion(): Promise<string> {
@@ -73,7 +84,7 @@ async function fetchIndicator(indicator: Indicator): Promise<{ source: Source; r
   const isWgi = indicator.kind !== 'wdi'
   const sourceId = isWgi ? 3 : 2
   const years = isWgi ? wgiYears : wdiYears
-  const date = isWgi ? '1996:2025' : '1960:2024'
+  const date = isWgi ? '1996:2025' : '1960:2025'
   const url = `https://api.worldbank.org/v2/country/${countryCodes.join(';')}/indicator/${indicator.code}?source=${sourceId}&date=${date}&format=json&per_page=1000`
   const { parsed, sha256 } = await fetchJson(url, indicator.code)
   if (!Array.isArray(parsed) || parsed.length !== 2 || !Array.isArray(parsed[1])) throw new Error(`${indicator.code} 响应结构异常`)
@@ -124,7 +135,11 @@ async function fetchIndicator(indicator: Indicator): Promise<{ source: Source; r
 async function main(): Promise<void> {
   const wgiSourceMetadataSha256 = await verifyWgiVersion()
   const downloaded: { source: Source; records: Observation[] }[] = []
-  for (const indicator of [...wdiIndicators, ...wgiIndicators]) downloaded.push(await fetchIndicator(indicator))
+  // 修改（2026-10-24）：每次指标请求间隔 1.5 秒并将单请求超时放宽到 90 秒，规避世界银行 API 连续请求限速导致的超时。
+  for (const indicator of [...wdiIndicators, ...wgiIndicators]) {
+    downloaded.push(await fetchIndicator(indicator))
+    await new Promise(resolve => setTimeout(resolve, 1500))
+  }
   const sources = downloaded.map(item => item.source)
   const records = downloaded.flatMap(item => item.records)
   const keys = new Set<string>()
@@ -139,9 +154,9 @@ async function main(): Promise<void> {
   if (sources.length !== expectedSourceCount || records.length !== wdiCount + wgiCount) throw new Error('最终指标或记录数量异常')
   const snapshot = {
     publisher: 'World Bank', retrievedAt: new Date().toISOString(), license: 'CC BY 4.0',
-    period: [1960, 2025], wdiPeriod: [1960, 2024], wgiPeriod: [1996, 2025], wgiYears,
+    period: [1960, 2025], wdiPeriod: [1960, 2025], wgiPeriod: [1996, 2025], wgiYears,
     wgiVersion, wgiMethodologyUrl, wgiSourceUrl, wgiSourceUpdated: wgiUpdate, wgiSourceMetadataSha256,
-    note: '七项 WDI 指标为八国 1960—2024 年逐年 API 原值；税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
+    note: '七项 WDI 指标为八国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
     sources, records,
   }
   const pendingPath = `${outputPath}.pending`

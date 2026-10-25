@@ -1,6 +1,6 @@
 {
   "publisher": "World Bank",
-  "retrievedAt": "2026-10-11T03:12:08.115Z",
+  "retrievedAt": "2026-10-25T03:54:54.090Z",
   "license": "CC BY 4.0",
   "period": [
     1960,
@@ -8,7 +8,7 @@
   ],
   "wdiPeriod": [
     1960,
-    2024
+    2025
   ],
   "wgiPeriod": [
     1996,
@@ -48,83 +48,83 @@
   "wgiSourceUrl": "https://api.worldbank.org/v2/source/3?format=json",
   "wgiSourceUpdated": "2026-09-25",
   "wgiSourceMetadataSha256": "2362d963b0522279a220709d1c61c862fd78262bf6795dd412c673c78fab3cac",
-  "note": "七项 WDI 指标为八国 1960—2024 年逐年 API 原值；税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。",
+  "note": "七项 WDI 指标为八国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。",
   "sources": [
     {
       "code": "NY.GDP.MKTP.CD",
       "label": "GDP（现价美元）",
       "unit": "美元",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.CD?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.CD?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "5fea6a60bbd051feb12002a1259163ba1c419070410ba91416f803f658723f63",
-      "rows": 520,
-      "nonNull": 492
+      "sha256": "69372e0f4e91dfb66754d321db9e8834a19ecfb507d51a3d3a4efe9c6269e3f3",
+      "rows": 528,
+      "nonNull": 500
     },
     {
       "code": "NY.GDP.PCAP.CD",
       "label": "人均 GDP（现价美元）",
       "unit": "美元/人",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.PCAP.CD?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.PCAP.CD?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "6d747671424f656fdd4b26c65682ae3d7991801c365a24cef054f026080f0cf1",
-      "rows": 520,
-      "nonNull": 492
+      "sha256": "43a61e373c558d4355c99bb420c412597cbbe84d496873bc8a184c4d7ca8e546",
+      "rows": 528,
+      "nonNull": 500
     },
     {
       "code": "SP.POP.TOTL",
       "label": "总人口",
       "unit": "人",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/SP.POP.TOTL?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/SP.POP.TOTL?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "1e8867a70e6c37d191177a1dbdd02e33db8103dea0e10cf10f02da262944e7bd",
-      "rows": 520,
-      "nonNull": 520
+      "sha256": "ebf15e4b337f9b9b94cb63f0a1adf78bb01a041696c3f855d6547fbadb8914a8",
+      "rows": 528,
+      "nonNull": 528
     },
     {
       "code": "NY.GDP.MKTP.KD",
       "label": "GDP（2015 年不变价美元）",
       "unit": "2015 年不变价美元",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.KD?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.KD?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "92076168045df1aea6079fb32a95779e036563773c6fe3835ee8a46d7ded4f9e",
-      "rows": 520,
-      "nonNull": 491
+      "sha256": "2efde35ad0885b27fe49e36019a1a3267c44790b9d9051f48a79fcef82206524",
+      "rows": 528,
+      "nonNull": 499
     },
     {
       "code": "NY.GDP.MKTP.KD.ZG",
       "label": "GDP 实际增长率",
       "unit": "%/年",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.KD.ZG?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/NY.GDP.MKTP.KD.ZG?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "592048e01023229acb3cf3f1984ed4c7d35cb422953f782c130ead9cc24f635c",
-      "rows": 520,
-      "nonNull": 483
+      "sha256": "4b4bb7d0776e1d50eae799664b6533f1d4ed172d1654e27ff53b6bb361a37971",
+      "rows": 528,
+      "nonNull": 491
     },
     {
       "code": "GC.TAX.TOTL.GD.ZS",
       "label": "税收收入占 GDP",
       "unit": "% GDP（IMF GFS）",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GC.TAX.TOTL.GD.ZS?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GC.TAX.TOTL.GD.ZS?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "76e08af7ca38ef2f3a4084db18c22c077adb14fa6297989eac5be93e42f1e811",
-      "rows": 520,
+      "sha256": "1efdc366f4c5d64c3915d83e6b58efef7889dec113a9475daa168b7d2ede5dfd",
+      "rows": 528,
       "nonNull": 307
     },
     {
       "code": "GC.REV.XGRT.GD.ZS",
       "label": "财政收入（不含赠款）占 GDP",
       "unit": "% GDP（IMF GFS）",
-      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GC.REV.XGRT.GD.ZS?source=2&date=1960:2024&format=json&per_page=1000",
+      "url": "https://api.worldbank.org/v2/country/CHN;USA;DEU;JPN;GBR;FRA;IND;RUS/indicator/GC.REV.XGRT.GD.ZS?source=2&date=1960:2025&format=json&per_page=1000",
       "updated": "2026-10-08",
       "sourceId": 2,
-      "sha256": "598f974f8199031d8cabe46e2fb3573ac5209e98700f41569e772d98b4bbb4c0",
-      "rows": 520,
+      "sha256": "8f2714f788cec5d3954f1c4b29b99662088b0d7cf8c2bc2d70e3c7a49abddd5f",
+      "rows": 528,
       "nonNull": 310
     },
     {
@@ -273,6 +273,14 @@
     }
   ],
   "records": [
+    {
+      "iso": "CHN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 19498039388042.6,
+      "status": "observed",
+      "decimal": 0
+    },
     {
       "iso": "CHN",
       "year": 2024,
@@ -790,6 +798,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.CD",
       "value": 59846235024.7318,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 5050922925047.05,
       "status": "observed",
       "decimal": 0
     },
@@ -1315,6 +1331,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3366315927447.33,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "NY.GDP.MKTP.CD",
       "value": 3160442622465.08,
@@ -1830,6 +1854,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.CD",
       "value": 61959085885.3427,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 4002587541846.01,
       "status": "observed",
       "decimal": 0
     },
@@ -2355,6 +2387,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 3956067115771.63,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "NY.GDP.MKTP.CD",
       "value": 3760813470500.86,
@@ -2870,6 +2910,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.CD",
       "value": 37029883876.1839,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 4435162999976.94,
       "status": "observed",
       "decimal": 0
     },
@@ -3395,6 +3443,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 2561310169358.74,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "NY.GDP.MKTP.CD",
       "value": 2186462268813.08,
@@ -3911,6 +3967,14 @@
       "code": "NY.GDP.MKTP.CD",
       "value": null,
       "status": "missing",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.CD",
+      "value": 30769700000000,
+      "status": "observed",
       "decimal": 0
     },
     {
@@ -4435,6 +4499,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 13861.970224368,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "NY.GDP.PCAP.CD",
       "value": 13293.1162269366,
@@ -4950,6 +5022,14 @@
       "year": 1960,
       "code": "NY.GDP.PCAP.CD",
       "value": 89.7150749167731,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 60496.4350820414,
       "status": "observed",
       "decimal": 1
     },
@@ -5475,6 +5555,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 48985.7307807924,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "NY.GDP.PCAP.CD",
       "value": 46103.0840855884,
@@ -5990,6 +6078,14 @@
       "year": 1960,
       "code": "NY.GDP.PCAP.CD",
       "value": 1306.79629911648,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 57601.9621201954,
       "status": "observed",
       "decimal": 1
     },
@@ -6515,6 +6611,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 2702.47987141553,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "NY.GDP.PCAP.CD",
       "value": 2591.9916607122,
@@ -7030,6 +7134,14 @@
       "year": 1960,
       "code": "NY.GDP.PCAP.CD",
       "value": 84.9328084793106,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 35951.0449549304,
       "status": "observed",
       "decimal": 1
     },
@@ -7555,6 +7667,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 17546.609375,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "NY.GDP.PCAP.CD",
       "value": 14961.8974609375,
@@ -8071,6 +8191,14 @@
       "code": "NY.GDP.PCAP.CD",
       "value": null,
       "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
+      "code": "NY.GDP.PCAP.CD",
+      "value": 90026.5163005744,
+      "status": "observed",
       "decimal": 1
     },
     {
@@ -8595,6 +8723,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 1406585000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "SP.POP.TOTL",
       "value": 1408975000,
@@ -9110,6 +9246,14 @@
       "year": 1960,
       "code": "SP.POP.TOTL",
       "value": 667070000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 83491249,
       "status": "observed",
       "decimal": 0
     },
@@ -9635,6 +9779,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 68720337,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "SP.POP.TOTL",
       "value": 68551653,
@@ -10150,6 +10302,14 @@
       "year": 1960,
       "code": "SP.POP.TOTL",
       "value": 47412964,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 69487000,
       "status": "observed",
       "decimal": 0
     },
@@ -10675,6 +10835,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 1463865525,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "SP.POP.TOTL",
       "value": 1450935791,
@@ -11190,6 +11358,14 @@
       "year": 1960,
       "code": "SP.POP.TOTL",
       "value": 435990338,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 123366734,
       "status": "observed",
       "decimal": 0
     },
@@ -11715,6 +11891,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 143513328,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "SP.POP.TOTL",
       "value": 143669648,
@@ -12230,6 +12414,14 @@
       "year": 1960,
       "code": "SP.POP.TOTL",
       "value": 119897000,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
+      "code": "SP.POP.TOTL",
+      "value": 341784857,
       "status": "observed",
       "decimal": 0
     },
@@ -12755,6 +12947,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 19401316126585.1,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD",
       "value": 18484494644731.6,
@@ -13270,6 +13470,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.KD",
       "value": 161019131971.415,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 3685858188650.63,
       "status": "observed",
       "decimal": 0
     },
@@ -13795,6 +14003,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 2743239233772.68,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD",
       "value": 2720362347819.81,
@@ -14310,6 +14526,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.KD",
       "value": 510927948958.609,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 3364704178220.16,
       "status": "observed",
       "decimal": 0
     },
@@ -14835,6 +15059,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 3693970992045.56,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD",
       "value": 3434122552914.77,
@@ -15350,6 +15582,14 @@
       "year": 1960,
       "code": "NY.GDP.MKTP.KD",
       "value": 136368119594.257,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 4764341438831.9,
       "status": "observed",
       "decimal": 0
     },
@@ -15875,6 +16115,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 1637255383314.57,
+      "status": "observed",
+      "decimal": 0
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD",
       "value": 1621026050317.24,
@@ -16391,6 +16639,14 @@
       "code": "NY.GDP.MKTP.KD",
       "value": null,
       "status": "missing",
+      "decimal": 0
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD",
+      "value": 23222782186839.4,
+      "status": "observed",
       "decimal": 0
     },
     {
@@ -16915,6 +17171,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 4.95994886240992,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": 4.95830378788091,
@@ -17431,6 +17695,14 @@
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": null,
       "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 0.239578342117881,
+      "status": "observed",
       "decimal": 1
     },
     {
@@ -17955,6 +18227,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 0.840949955479587,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": 1.19046798275883,
@@ -18471,6 +18751,14 @@
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": null,
       "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 1.38844207858726,
+      "status": "observed",
       "decimal": 1
     },
     {
@@ -18995,6 +19283,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 7.56666179284244,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": 7.09927893176518,
@@ -19511,6 +19807,14 @@
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": null,
       "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 1.19311288444599,
+      "status": "observed",
       "decimal": 1
     },
     {
@@ -20035,6 +20339,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 1.00117656925738,
+      "status": "observed",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": 4.92167966203073,
@@ -20551,6 +20863,14 @@
       "code": "NY.GDP.MKTP.KD.ZG",
       "value": null,
       "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
+      "code": "NY.GDP.MKTP.KD.ZG",
+      "value": 2.16138195623856,
+      "status": "observed",
       "decimal": 1
     },
     {
@@ -21075,6 +21395,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": 7.01806095279297,
@@ -21588,6 +21916,14 @@
     {
       "iso": "CHN",
       "year": 1960,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": null,
       "status": "missing",
@@ -22115,6 +22451,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": 22.778486344686,
@@ -22628,6 +22972,14 @@
     {
       "iso": "FRA",
       "year": 1960,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": null,
       "status": "missing",
@@ -23155,6 +23507,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": null,
@@ -23668,6 +24028,14 @@
     {
       "iso": "IND",
       "year": 1960,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": null,
       "status": "missing",
@@ -24195,6 +24563,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": 10.8718510370824,
@@ -24708,6 +25084,14 @@
     {
       "iso": "RUS",
       "year": 1960,
+      "code": "GC.TAX.TOTL.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
       "code": "GC.TAX.TOTL.GD.ZS",
       "value": null,
       "status": "missing",
@@ -25235,6 +25619,14 @@
     },
     {
       "iso": "CHN",
+      "year": 2025,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "CHN",
       "year": 2024,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": 14.9328173497711,
@@ -25748,6 +26140,14 @@
     {
       "iso": "CHN",
       "year": 1960,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "DEU",
+      "year": 2025,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": null,
       "status": "missing",
@@ -26275,6 +26675,14 @@
     },
     {
       "iso": "FRA",
+      "year": 2025,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "FRA",
       "year": 2024,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": 42.1079880169865,
@@ -26788,6 +27196,14 @@
     {
       "iso": "FRA",
       "year": 1960,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "GBR",
+      "year": 2025,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": null,
       "status": "missing",
@@ -27315,6 +27731,14 @@
     },
     {
       "iso": "IND",
+      "year": 2025,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "IND",
       "year": 2024,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": null,
@@ -27828,6 +28252,14 @@
     {
       "iso": "IND",
       "year": 1960,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "JPN",
+      "year": 2025,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": null,
       "status": "missing",
@@ -28355,6 +28787,14 @@
     },
     {
       "iso": "RUS",
+      "year": 2025,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "RUS",
       "year": 2024,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": 27.8283526409365,
@@ -28868,6 +29308,14 @@
     {
       "iso": "RUS",
       "year": 1960,
+      "code": "GC.REV.XGRT.GD.ZS",
+      "value": null,
+      "status": "missing",
+      "decimal": 1
+    },
+    {
+      "iso": "USA",
+      "year": 2025,
       "code": "GC.REV.XGRT.GD.ZS",
       "value": null,
       "status": "missing",
