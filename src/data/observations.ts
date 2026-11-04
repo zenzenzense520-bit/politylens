@@ -7,7 +7,7 @@ export const eiuSource = {
   name: 'EIU Democracy Index 2024', version: '2024（2025 年发布）', retrievedAt: '2026-09-18',
   url: 'https://www.eiu.com/n/campaigns/democracy-index-2024/',
   report: 'https://rulesofactivism.com/wp-content/uploads/2025/03/Democracy-Index-2024.pdf',
-  note: 'EIU 原版报告的第三方镜像；人工核验表 2 的八国摘录。保留原始五维，不映射为八维 DRI。',
+  note: 'EIU 原版报告的第三方镜像；人工核验表 2 的十二国摘录（PDF 文本层）。保留原始五维，不映射为八维 DRI。',
 }
 export const eiuDimensions = ['选举与多元化', '政府运作', '政治参与', '政治文化', '公民自由']
 export const eiuObservations: EiuObservation[] = [
@@ -19,6 +19,11 @@ export const eiuObservations: EiuObservation[] = [
   { iso: 'FRA', year: 2024, score: 7.99, rank: 26, page: 16, dimensions: [9.58, 7.50, 7.78, 6.88, 8.24] },
   { iso: 'IND', year: 2024, score: 7.29, rank: 41, page: 16, dimensions: [8.67, 7.50, 7.22, 6.88, 6.18] },
   { iso: 'RUS', year: 2024, score: 2.03, rank: 150, page: 20, dimensions: [0, 2.14, 2.22, 3.75, 2.06] },
+  // 修改（2026-10-25）：P1-3 四国 EIU 2024 五维度，人工核验表 2 页码（PDF 文本层）。
+  { iso: 'KOR', year: 2024, score: 7.75, rank: 32, page: 16, dimensions: [9.58, 7.50, 7.22, 5.63, 8.82] },
+  { iso: 'ZAF', year: 2024, score: 7.16, rank: 43, page: 16, dimensions: [9.17, 6.79, 7.78, 5.00, 7.06] },
+  { iso: 'BRA', year: 2024, score: 6.49, rank: 57, page: 17, dimensions: [9.58, 5.00, 6.11, 5.00, 6.76] },
+  { iso: 'UKR', year: 2024, score: 4.90, rank: 92, page: 18, dimensions: [5.17, 2.71, 7.22, 5.00, 4.41] },
 ]
 export interface Country { iso: string; country: string; coords: [number, number] }
 export const countries: Country[] = [
@@ -26,6 +31,9 @@ export const countries: Country[] = [
   { iso: 'DEU', country: '德国', coords: [10, 51] }, { iso: 'JPN', country: '日本', coords: [138, 36] },
   { iso: 'GBR', country: '英国', coords: [-2, 54] }, { iso: 'FRA', country: '法国', coords: [2, 47] },
   { iso: 'IND', country: '印度', coords: [79, 22] }, { iso: 'RUS', country: '俄罗斯', coords: [90, 60] },
+  // 修改（2026-10-25）：P1-3 扩充韩国、巴西、南非、乌克兰。
+  { iso: 'KOR', country: '韩国', coords: [128, 36] }, { iso: 'BRA', country: '巴西', coords: [-52, -10] },
+  { iso: 'ZAF', country: '南非', coords: [24, -29] }, { iso: 'UKR', country: '乌克兰', coords: [32, 49] },
 ]
 // 修改：WDI 与 2026 版 WGI 共用可追溯长表；status 只表示 API 数值是否可用，并非直接观测性质。
 export interface WorldBankSource { code: string; label: string; unit: string; url: string; updated: string; sourceId: 2 | 3; sha256?: string; rows?: number; nonNull?: number }

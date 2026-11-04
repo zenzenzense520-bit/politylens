@@ -23,6 +23,10 @@ export const leaderRecords: LeaderRecord[] = [
   { id: 'FRA-2024', leader: '埃马纽埃尔·马克龙（总统）；阿塔尔、巴尼耶、贝鲁（年内总理更替）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-09-18' },
   { id: 'IND-2024', leader: '德劳帕迪·穆尔穆（总统）；纳伦德拉·莫迪（总理）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-09-18' },
   { id: 'RUS-2024', leader: '弗拉基米尔·普京（总统）；米哈伊尔·米舒斯京（总理）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-09-18' },
+  { id: 'KOR-2024', leader: '尹锡悦（总统）；韩德洙（总理，2024 年 12 月戒严弹劾后代理总统）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-10-25' },
+  { id: 'BRA-2024', leader: '卢拉（总统）；阿尔克明（副总统）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-10-25' },
+  { id: 'ZAF-2024', leader: '拉马福萨（总统，2024 年 5 月大选后连任）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-10-25' },
+  { id: 'UKR-2024', leader: '泽连斯基（总统，战时任期延长）；什梅加尔（总理）', sourceName: 'Wikipedia：List of state leaders in 2024', sourceUrl: 'https://en.wikipedia.org/wiki/List_of_state_leaders_in_2024', retrievedAt: '2026-10-25' },
 ]
 
 export function leaderFor(id: string): LeaderRecord | undefined {

@@ -18,7 +18,8 @@ const series: Series[] = [
   { code: 'v2x_delibdem', label: '协商民主', slug: 'deliberative-democracy-index-vdem', column: 'Deliberative democracy index' },
   { code: 'v2x_egaldem', label: '平等民主', slug: 'egalitarian-democracy-index-vdem', column: 'Egalitarian democracy index' },
 ]
-const countries = new Set(['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS'])
+// 修改（2026-10-25）：P1-3 扩充韩国、巴西、南非、乌克兰（KOR/BRA/ZAF/UKR），共 12 个国家。
+const countries = new Set(['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS', 'KOR', 'BRA', 'ZAF', 'UKR'])
 const etlCommit = '4ad0beba651dcdde8f2808be1a43e146e168b420'
 const etlBase = `https://raw.githubusercontent.com/owid/etl/${etlCommit}/etl/steps/data/garden/democracy/2026-03-17/vdem/`
 const rulesUrl = `${etlBase}vdem.countries_impute.yml`
@@ -27,6 +28,15 @@ const namesUrl = `${etlBase}vdem.countries.json`
 const namesSha256 = 'b4317ca2429e0aa466067132211d43bfa2db876e2b3ebaf2dd9b9fc87d40c434'
 const records = new Map<string, Observation>()
 const sources: SourceRecord[] = []
+// 修改（2026-10-25）：P1-3 核定 OWID 回填——乌克兰 1946—1989 年由 Russia 借用，非现代国界直接观测，排除（序列自 1990 年原生编码起）。
+const approvedExclusions: Array<{ iso: string; country: string; donor: string; yearMin: number; yearMax: number; reason: string }> = [
+  { iso: 'UKR', country: 'Ukraine', donor: 'Russia', yearMin: 1946, yearMax: 1989,
+    reason: 'OWID 固定 ETL 规则以俄罗斯 V-Dem 值回填苏联时期乌克兰 1946—1989 年；按不把跨政权回填当作现代国界直接观测的原则排除，乌克兰 V-Dem 序列自 1990 年原生编码起。' },
+]
+function isApprovedExclusion(iso: string, year: number): boolean {
+  return approvedExclusions.some(item => item.iso === iso && year >= item.yearMin && year <= item.yearMax)
+}
+let excludedRows = 0
 const root = process.cwd()
 const cacheDir = path.join(root, 'logs/cache/vdem')
 const outputDir = path.join(root, 'public/data/observations')
@@ -144,12 +154,14 @@ for (const item of series) {
   const valueAt = header.indexOf(item.column)
   if (codeAt < 0 || entityAt < 0 || yearAt < 0 || valueAt < 0 || lines.length < 1000) throw new Error(`${item.code} CSV 格式异常`)
   let selected = 0
+  let seriesExcluded = 0
   for (const line of lines.slice(1)) {
     const cells = parseCsvLine(line)
     const iso = cells[codeAt]
     const sourceEntity = cells[entityAt]
     const year = Number(cells[yearAt])
     if (!countries.has(iso) || !Number.isInteger(year) || year < 1900 || year > 2025) continue
+    if (isApprovedExclusion(iso, year)) { excludedRows++; seriesExcluded++; continue }
     if (!sourceEntity) throw new Error(`${item.code} ${iso}-${year} 缺少 OWID 实体名称`)
     const raw = cells[valueAt]
     const value = raw === '' ? null : Number(raw)
@@ -167,28 +179,30 @@ for (const item of series) {
   const sha256 = createHash('sha256').update(csv).digest('hex')
   writeFileSync(path.join(cacheDir, `${item.slug}.csv`), csv)
   sources.push({ ...item, url, sha256, rows: selected })
-  console.log(`${item.code}: ${selected} 个八国年度记录，SHA-256 ${sha256.slice(0, 12)}`)
+  console.log(`${item.code}: ${selected} 个十二国年度记录（本指数排除回填 ${seriesExcluded} 行），SHA-256 ${sha256.slice(0, 12)}`)
 }
 const selected = [...records.values()]
 if (ruleEvidence.rules && ruleEvidence.knownEntities &&
   selected.every(record => ruleEvidence.knownEntities!.has(record.sourceEntity))) {
-  // 修改：八国全部未回填是从固定规则解析后得出的断言，不预设逐行状态。
-  if (selected.some(record => record.owidImputationStatus !== 'not_imputed')) throw new Error('八国出现需另行核定的 OWID 回填记录')
+  // 修改：十二国在排除已核定回填（乌克兰 1946—1989）后，其余记录必须全部未回填，这是从固定规则解析后得出的断言。
+  if (selected.some(record => record.owidImputationStatus !== 'not_imputed')) throw new Error('十二国出现需另行核定的 OWID 回填记录')
 }
 const output = {
   publisher: 'Varieties of Democracy (V-Dem) Project', processor: 'Our World in Data', version: 'v16 (2026)',
   license: 'CC BY-SA 4.0', retrievedAt: new Date().toISOString(), period: [1900, 2025],
   processingUrl: 'https://ourworldindata.org/grapher/electoral-democracy-index',
-  note: '五个 V-Dem v16 指数经 OWID 处理；逐行状态仅说明是否经过 OWID 跨政权回填，不代表现代国界内的直接观测。苏联 SUN 仅在 1923—1990 年按 V-Dem 编码单元 11 映射 RUS；1922 和 1991 不自动映射。0—1 量表，不等同于 EIU 或自定义 DRI。',
+  note: '五个 V-Dem v16 指数经 OWID 处理；逐行状态仅说明是否经过 OWID 跨政权回填，不代表现代国界内的直接观测。苏联 SUN 仅在 1923—1990 年按 V-Dem 编码单元 11 映射 RUS；1922 和 1991 不自动映射。乌克兰 UKR 1946—1989 年为 OWID 借用俄罗斯的回填，经核定不纳入（见 excludedImputations），序列自 1990 年原生编码起。0—1 量表，不等同于 EIU 或自定义 DRI。',
   owidEtl: { datasetVersion: '2026-03-17', commit: etlCommit, rulesUrl, rulesSha256, namesUrl, namesSha256,
     verification: ruleEvidence.issue ? 'unresolved' : 'verified', issue: ruleEvidence.issue,
     statusDefinition: 'OWID 跨政权复制状态；not_imputed 为未经过该回填，不表示现代国界或独立国家的直接观测。' },
   sovietMapping: { targetIso: 'SUN', sourceIso: 'RUS', firstYear: 1923, lastYear: 1990, vdemCountryUnitId: 11,
     sourceUrl: 'https://v-dem.net/documents/72/countryunit_v16.pdf#page=31' },
+  // 修改（2026-10-25）：记录已核定并排除的 OWID 回填（乌克兰 1946—1989），保持可追溯。
+  excludedImputations: approvedExclusions.map(item => ({ ...item, sourceUrl: rulesUrl })),
   sources, records: selected.sort((left, right) => left.iso.localeCompare(right.iso) || left.year - right.year),
 }
 const target = path.join(outputDir, 'vdem.json')
 const pending = `${target}.pending`
 writeFileSync(pending, `${JSON.stringify(output)}\n`)
 renameSync(pending, target)
-console.log(`V-Dem 完成：${output.records.length} 个国家—年份，${series.length} 个指数`)
+console.log(`V-Dem 完成：${output.records.length} 个国家—年份，${series.length} 个指数，核定排除回填 ${excludedRows} 行`)

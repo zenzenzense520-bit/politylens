@@ -34,7 +34,8 @@ assert.notEqual(metricColor(null, 10), metricColor(0, 10))
 const profiles = buildProfiles(regimes)
 assert.equal(profiles.find(row => row.id === 'ussr-1937')?.iso, 'SUN')
 assert(profiles.every(row => Object.values(row.dri).every(value => value === null)))
-assert.equal(profiles.length, 15)
+// 修改（2026-10-25）：P1-3 扩到 12 个现代国家，7 历史 + 12 现代 = 19 个档案。
+assert.equal(profiles.length, 19)
 assert(profiles.every(row => row.leader && row.leader !== '领导人资料待补充'))
 assert(profiles.every(row => row.leaderSource?.url.startsWith('https://')))
 for (const row of eiuObservations) {
@@ -143,15 +144,16 @@ const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKT
 const wgiDimensions = ['VA', 'PV', 'GE', 'RQ', 'RL', 'CC']
 const wgiCodes = wgiDimensions.flatMap(dimension => [`GOV_WGI_${dimension}.EST`, `GOV_WGI_${dimension}.SE`])
 const wgiYears = [1996, 1998, 2000, ...Array.from({ length: 24 }, (_, index) => 2002 + index)]
-const wdiCountries = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS']
+// 修改（2026-10-25）：P1-3 加韩国、巴西、南非、乌克兰，共 12 国。
+const wdiCountries = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS', 'KOR', 'BRA', 'ZAF', 'UKR']
 assert.equal(worldBank.license, 'CC BY 4.0')
 assert.deepEqual(worldBank.period, [1960, 2025])
 assert.deepEqual(worldBank.wdiPeriod, [1960, 2025])
 assert.equal(worldBank.wgiVersion, '2026 update')
 assert.match(worldBank.wgiMethodologyUrl, /^https:\/\/www\.worldbank\.org\/content\/dam\/sites\/govindicators\/doc\//)
 assert.deepEqual(worldBank.sources.map(source => source.code), [...wdiCodes, ...wgiCodes])
-// 修改（2026-10-24）：WDI 扩展到 2025 年（7 指标 × 8 国 × 66 年 = 3696 键），总记录 6288。
-assert.equal(worldBank.records.length, 6288)
+// 修改（2026-10-25）：P1-3 扩 12 国——WDI 7 指标 × 12 国 × 66 年 = 5544，WGI 12 代码 × 12 国 × 27 年 = 3888，总记录 9432。
+assert.equal(worldBank.records.length, 9432)
 assert.equal(new Set(worldBank.records.map(row => `${row.iso}-${row.year}-${row.code}`)).size, worldBank.records.length)
 assert(worldBank.records.every(row => row.value === null || Number.isFinite(row.value)))
 assert(worldBank.records.every(row => row.status === (row.value === null ? 'missing' : 'observed')))
@@ -189,10 +191,11 @@ for (const code of wgiCodes) {
   assert(rows.every(row => row.status === (row.value === null ? 'missing' : 'observed')))
   if (code.endsWith('.SE')) assert(rows.every(row => row.value === null || row.value >= 0))
 }
-assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length, 2592)
+// 修改（2026-10-25）：P1-3 扩 12 国，WGI 键空间 12 代码 × 12 国 × 27 年 = 3888。
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code)).length, 3888)
 assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && [1997, 1999, 2001].includes(row.year)).length, 0)
-assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2025).length, 96)
-assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2024 && row.value !== null).length, 96)
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2025).length, 144)
+assert.equal(worldBank.records.filter(row => wgiCodes.includes(row.code) && row.year === 2024 && row.value !== null).length, 144)
 // 修改（2026-10-25）：wgiSeriesFor 单国六维时间序列取数：八国 × 六维 × 27 点，年份与发布年表一致，EST/SE 非空且 EST 落在 −2.5～+2.5。
 const expectedWgiDimCodes = wgiCodes.filter(code => code.endsWith('.EST')).map(code => code.replace('GOV_WGI_', '').replace('.EST', ''))
 for (const iso of wdiCountries) {
@@ -206,10 +209,10 @@ for (const iso of wdiCountries) {
     assert(dimension.points.every(point => point.estimate === null || (point.estimate >= -2.5 && point.estimate <= 2.5)))
   }
 }
-// 2025 年 WDI：五项宏观指标八国均已发布（40 个非空），两项 IMF GFS 财政比率尚未发布（保留 null）。
+// 修改（2026-10-25）：P1-3 扩 12 国——2025 年五项宏观指标十二国均已发布（60 个非空），两项 IMF GFS 财政比率尚未发布（24 键，保留 null）。
 const wdiMacroCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG']
-assert.equal(worldBank.records.filter(row => wdiMacroCodes.includes(row.code) && row.year === 2025 && row.value !== null).length, 40)
-assert.equal(worldBank.records.filter(row => ['GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS'].includes(row.code) && row.year === 2025).length, 16)
+assert.equal(worldBank.records.filter(row => wdiMacroCodes.includes(row.code) && row.year === 2025 && row.value !== null).length, 60)
+assert.equal(worldBank.records.filter(row => ['GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS'].includes(row.code) && row.year === 2025).length, 24)
 assert.equal(worldBank.records.filter(row => ['GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS'].includes(row.code) && row.year === 2025 && row.value !== null).length, 0)
 assert.equal(worldBank.records.filter(row => row.iso === 'SUN').length, 0)
 assert(worldBank.records.some(row => row.iso === 'CHN' && row.year === 1978 && row.code === 'NY.GDP.MKTP.KD.ZG' && row.value !== null))
@@ -232,8 +235,8 @@ assert.equal(vdem.owidEtl.issue, null)
 assert.deepEqual([vdem.sovietMapping.targetIso, vdem.sovietMapping.sourceIso, vdem.sovietMapping.firstYear, vdem.sovietMapping.lastYear, vdem.sovietMapping.vdemCountryUnitId], ['SUN', 'RUS', 1923, 1990, 11])
 assert.deepEqual(vdem.sources.map(source => source.code), vdemCodes)
 assert(vdem.sources.every(source => source.url.startsWith('https://ourworldindata.org/grapher/') && /^[0-9a-f]{64}$/.test(source.sha256)))
-// 修改（2026-10-24）：V-Dem v16 扩展到 2025 年（954 → 962 条）。
-assert.equal(vdem.records.length, 962)
+// 修改（2026-10-25）：P1-3 扩 12 国——V-Dem 国家—年份 962 → 1376（韩/巴/南各 126 年，乌克兰 1990 起 36 年；1946—1989 回填已排除）。
+assert.equal(vdem.records.length, 1376)
 assert.equal(new Set(vdem.records.map(row => `${row.iso}-${row.year}`)).size, vdem.records.length)
 assert(vdem.records.every(row => row.year >= 1900 && row.year <= 2025 && row.sourceEntity.length > 0 && row.owidImputationStatus === 'not_imputed' && vdemCodes.every(code => row.values[code] === null || (row.values[code] >= 0 && row.values[code] <= 1))))
 assert.equal(typeof vdemFor(vdem, 'DEU', 1932)?.values.v2x_polyarchy, 'number')
@@ -246,8 +249,8 @@ assert.equal(vdemFor(vdem, 'SUN', 1922), undefined)
 assert.equal(vdemFor(vdem, 'SUN', 1991), undefined)
 assert.equal(vdemFor(vdem, 'DEU', 1966), undefined)
 assert(eiuObservations.every(row => vdemCodes.every(code => typeof vdemFor(vdem, row.iso, row.year)?.values[code] === 'number')))
-// V-Dem 2025：八国均有当年记录，且五指数全为 0—1 数值。
-assert.equal(vdem.records.filter(row => row.year === 2025).length, 8)
+// 修改（2026-10-25）：V-Dem 2025——十二国均有当年记录，且五指数全为 0—1 数值。
+assert.equal(vdem.records.filter(row => row.year === 2025).length, 12)
 assert.deepEqual(vdem.records.filter(row => row.year === 2025).map(row => row.iso).sort(), [...wdiCountries].sort())
 assert(vdem.records.filter(row => row.year === 2025).every(row => vdemCodes.every(code => typeof row.values[code] === 'number' && row.values[code]! >= 0 && row.values[code]! <= 1)))
 interface NmcDataset { records: { iso: string; year: number; c: number | null; e: number | null; m: number | null }[] }

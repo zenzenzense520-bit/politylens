@@ -1,6 +1,7 @@
 import { wgiDimensions, type WorldBankDataset } from '../data/observations'
 
-const countryCodes = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS']
+// 修改（2026-10-25）：P1-3 扩韩国、巴西、南非、乌克兰，共 12 国。
+const countryCodes = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS', 'KOR', 'BRA', 'ZAF', 'UKR']
 const wgiYears = [1996, 1998, 2000, 2002, ...Array.from({ length: 23 }, (_, index) => 2003 + index)]
 const wgiCodes = wgiDimensions.flatMap(dimension => [`GOV_WGI_${dimension.code}.EST`, `GOV_WGI_${dimension.code}.SE`])
 
@@ -23,8 +24,9 @@ function isWorldBankDataset(value: unknown): value is WorldBankDataset {
       typeof source.updated !== 'string' || ![2, 3].includes(source.sourceId as number)) return false
     if (sourceCodes.has(source.code)) return false
     sourceCodes.add(source.code)
+    // 修改（2026-10-25）：WGI 每维 source 行数随国家数变为 12 × 27 = 324，且全非空。
     if (wgiCodes.includes(source.code) && (source.sourceId !== 3 || source.updated !== value.wgiSourceUpdated ||
-      source.rows !== 216 || source.nonNull !== 216)) return false
+      source.rows !== 324 || source.nonNull !== 324)) return false
   }
   if (!wgiCodes.every(code => sourceCodes.has(code))) return false
   const wgiKeySet = new Set<string>()

@@ -10,7 +10,8 @@ interface Indicator { code: string; label: string; unit: string; kind: Indicator
 interface Observation { iso: string; year: number; code: string; value: number | null; status: 'observed' | 'missing'; decimal: number }
 interface Source { code: string; label: string; unit: string; url: string; updated: string; sourceId: number; sha256: string; rows: number; nonNull: number; version?: string }
 
-const countryCodes = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS'] as const
+// 修改（2026-10-25）：P1-3 扩充韩国、巴西、南非、乌克兰（KOR/BRA/ZAF/UKR），共 12 个国家。
+const countryCodes = ['CHN', 'USA', 'DEU', 'JPN', 'GBR', 'FRA', 'IND', 'RUS', 'KOR', 'BRA', 'ZAF', 'UKR'] as const
 const countrySet = new Set<string>(countryCodes)
 const wdiYears = Array.from({ length: 66 }, (_, index) => 1960 + index)
 const wgiYears = [1996, 1998, 2000, 2002, ...Array.from({ length: 23 }, (_, index) => 2003 + index)]
@@ -156,7 +157,7 @@ async function main(): Promise<void> {
     publisher: 'World Bank', retrievedAt: new Date().toISOString(), license: 'CC BY 4.0',
     period: [1960, 2025], wdiPeriod: [1960, 2025], wgiPeriod: [1996, 2025], wgiYears,
     wgiVersion, wgiMethodologyUrl, wgiSourceUrl, wgiSourceUpdated: wgiUpdate, wgiSourceMetadataSha256,
-    note: '七项 WDI 指标为八国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
+    note: '七项 WDI 指标为十二国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
     sources, records,
   }
   const pendingPath = `${outputPath}.pending`
