@@ -29,6 +29,14 @@ const wdiIndicators: Indicator[] = [
   { code: 'NY.GDP.MKTP.KD.ZG', label: 'GDP 实际增长率', unit: '%/年', kind: 'wdi' },
   { code: 'GC.TAX.TOTL.GD.ZS', label: '税收收入占 GDP', unit: '% GDP（IMF GFS）', kind: 'wdi' },
   { code: 'GC.REV.XGRT.GD.ZS', label: '财政收入（不含赠款）占 GDP', unit: '% GDP（IMF GFS）', kind: 'wdi' },
+  // 新增（2026-11-06）：七项社会、军事与开放度指标，按 WDI API 原值同步，缺失保持 null，不参与自动评分。
+  { code: 'MS.MIL.XPND.CD', label: '军费支出（现价美元）', unit: '美元（SIPRI）', kind: 'wdi' },
+  { code: 'MS.MIL.XPND.GD.ZS', label: '军费支出占 GDP', unit: '% GDP（SIPRI）', kind: 'wdi' },
+  { code: 'SP.DYN.LE00.IN', label: '出生时预期寿命', unit: '岁', kind: 'wdi' },
+  { code: 'SP.URB.TOTL.IN.ZS', label: '城镇人口占总人口', unit: '%', kind: 'wdi' },
+  { code: 'NE.TRD.GNFS.ZS', label: '货物和服务贸易占 GDP', unit: '% GDP', kind: 'wdi' },
+  { code: 'IT.NET.USER.ZS', label: '互联网使用者占人口', unit: '%', kind: 'wdi' },
+  { code: 'SI.POV.GINI', label: '基尼系数', unit: '指数（0—100）', kind: 'wdi' },
 ]
 const wgiDimensions = [
   { code: 'VA', label: '问责与表达' }, { code: 'PV', label: '政治稳定' },
@@ -46,7 +54,7 @@ function requireObject(value: unknown, context: string): JsonObject {
 }
 
 async function fetchJson(url: string, context: string): Promise<{ parsed: unknown; sha256: string }> {
-  // 修改（2026-10-24）：网络/超时错误按 5s、15s、45s 指数退避重试三次，HTTP 状态错误不重试，保证整批同步不因限速中断。
+  // 修改（2026-10-24）：网络/超时错误按 5s、15s、45s 指数退避重试三次，除 502/503/504 外的 HTTP 状态错误不重试，保证整批同步不因限速中断。
   let lastError: unknown
   for (let attempt = 0; attempt <= 3; attempt++) {
     try {
@@ -59,7 +67,8 @@ async function fetchJson(url: string, context: string): Promise<{ parsed: unknow
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error))
       const message = lastError instanceof Error ? lastError.message : String(lastError)
-      if (attempt === 3 || /HTTP \d+/.test(message)) break
+      // 2026-11-06：HTTP 502/503/504 为世界银行 API 的瞬时网关错误，同样退避重试；其余 HTTP 错误仍直接失败。
+      if (attempt === 3 || /HTTP (?!50[234])\d+/.test(message)) break
       await new Promise(resolve => setTimeout(resolve, [5000, 15000, 45000][attempt]))
       console.log(`${context} 第 ${attempt + 1} 次重试…`)
     }
@@ -157,7 +166,7 @@ async function main(): Promise<void> {
     publisher: 'World Bank', retrievedAt: new Date().toISOString(), license: 'CC BY 4.0',
     period: [1960, 2025], wdiPeriod: [1960, 2025], wgiPeriod: [1996, 2025], wgiYears,
     wgiVersion, wgiMethodologyUrl, wgiSourceUrl, wgiSourceUpdated: wgiUpdate, wgiSourceMetadataSha256,
-    note: '七项 WDI 指标为十二国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
+    note: '十四项 WDI 指标为十二国 1960—2025 年逐年 API 原值；其中五项宏观指标 2025 年已发布，税收收入和不含赠款的财政收入占 GDP 来自 IMF GFS，经 WDI API 提供，覆盖稀疏（2025 年财政比率尚未发布，保留 null）且不自动折算 CAP。WGI 2026 版六维估计值及标准误为 1996、1998、2000、2002、2003—2025 年 27 个已发布年份。空值仅表示 API 缺值，WGI 的 observed 仅表示数值存在而非直接观测；不填补 1997、1999、2001，也不将 RUS 借给苏联 SUN。',
     sources, records,
   }
   const pendingPath = `${outputPath}.pending`

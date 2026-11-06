@@ -149,7 +149,8 @@ const china1966 = clio1966.filter(feature => feature.properties.ADMIN_NAME === "
 assert(china1966.some(feature => geometryContains([91, 31], feature.geometry)), '1966 年西藏参考点未落入中国')
 const worldBank = parse<WorldBankDataset>('public/data/observations/world-bank.json')
 // 修改：核验七项年度 WDI 与 WGI 2026 版六维估计值/标准误的完整键空间及真实缺口。
-const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG', 'GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS']
+const wdiCodes = ['NY.GDP.MKTP.CD', 'NY.GDP.PCAP.CD', 'SP.POP.TOTL', 'NY.GDP.MKTP.KD', 'NY.GDP.MKTP.KD.ZG', 'GC.TAX.TOTL.GD.ZS', 'GC.REV.XGRT.GD.ZS',
+  'MS.MIL.XPND.CD', 'MS.MIL.XPND.GD.ZS', 'SP.DYN.LE00.IN', 'SP.URB.TOTL.IN.ZS', 'NE.TRD.GNFS.ZS', 'IT.NET.USER.ZS', 'SI.POV.GINI']
 const wgiDimensions = ['VA', 'PV', 'GE', 'RQ', 'RL', 'CC']
 const wgiCodes = wgiDimensions.flatMap(dimension => [`GOV_WGI_${dimension}.EST`, `GOV_WGI_${dimension}.SE`])
 const wgiYears = [1996, 1998, 2000, ...Array.from({ length: 24 }, (_, index) => 2002 + index)]
@@ -162,7 +163,8 @@ assert.equal(worldBank.wgiVersion, '2026 update')
 assert.match(worldBank.wgiMethodologyUrl, /^https:\/\/www\.worldbank\.org\/content\/dam\/sites\/govindicators\/doc\//)
 assert.deepEqual(worldBank.sources.map(source => source.code), [...wdiCodes, ...wgiCodes])
 // 修改（2026-10-25）：P1-3 扩 12 国——WDI 7 指标 × 12 国 × 66 年 = 5544，WGI 12 代码 × 12 国 × 27 年 = 3888，总记录 9432。
-assert.equal(worldBank.records.length, 9432)
+// 2026-11-06：WDI 扩至 14 指标 × 12 国 × 66 年 = 11088，加 WGI 3888，总记录 14976。
+assert.equal(worldBank.records.length, 14976)
 assert.equal(new Set(worldBank.records.map(row => `${row.iso}-${row.year}-${row.code}`)).size, worldBank.records.length)
 assert(worldBank.records.every(row => row.value === null || Number.isFinite(row.value)))
 assert(worldBank.records.every(row => row.status === (row.value === null ? 'missing' : 'observed')))
