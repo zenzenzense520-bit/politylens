@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './styles.css'
 import './map.css'
+import './apple.css'
 import '@arcgis/core/assets/esri/themes/dark/main.css'
 
 createApp(App).mount('#app')

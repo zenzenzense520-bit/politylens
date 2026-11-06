@@ -1,0 +1,61 @@
+/* 2026-11-06 主页视觉重构：参考 Apple HIG / apple.com 的克制风格 —— 系统字体、大圆角卡片、毛玻璃顶栏、去掉终端式等宽小字与编号标签。仅覆盖样式，不改数据口径。 */
+:root{--bg:#000;--panel:#1c1c1e;--panel-2:#2c2c2e;--line:rgba(255,255,255,.08);--muted:#8e8e93;--text:#f5f5f7;--cyan:#64a8ff;--amber:#ff9f0a;--red:#ff453a;--mono:ui-monospace,'SF Mono',Menlo,monospace;--radius:18px;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue','PingFang SC','Microsoft YaHei',sans-serif;color:var(--text);background:#000;-webkit-font-smoothing:antialiased}
+body{background:#000}
+.app-shell{max-width:1680px;padding:0 24px 40px}
+/* 顶栏：毛玻璃 */
+.topbar{position:sticky;top:0;z-index:10;height:56px;margin:0 -24px;padding:0 24px;background:rgba(0,0,0,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
+.brand-mark,.brand-sub,.top-meta .divider,.status-dot{display:none}
+.brand-name{font-size:17px;font-weight:600;letter-spacing:-.01em}.brand-name span{color:var(--muted);font-weight:400}
+.top-meta{font:13px -apple-system,'PingFang SC',sans-serif;color:var(--muted)}
+.icon-button{width:28px;height:28px;border-radius:50%;background:var(--panel-2);color:var(--text);font-size:14px}
+/* 去掉终端式装饰与编号 */
+.eyebrow,.map-crosshair,.map-overlay,.map-footnote,.sidebar-footer,.boundary-notice small,.import-tools small,.live-dot{display:none!important}
+.panel{background:var(--panel);border:0;border-radius:var(--radius);box-shadow:none}
+.workspace{grid-template-columns:260px minmax(440px,1fr) 400px;gap:16px;margin-top:20px}
+/* 侧栏 */
+.sidebar{padding:20px 16px}
+.panel-heading h2,.inspector h2,.map-toolbar h1{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.count-badge,.score-chip{font:600 12px -apple-system,sans-serif;background:var(--panel-2);border:0;border-radius:980px;color:var(--muted);padding:3px 10px}
+.search-box{height:36px;border:0;border-radius:10px;background:var(--panel-2);margin:16px 0 12px}
+.search-box input{font-size:14px;color:var(--text)}
+.filter-row{border:0;padding:0 0 8px;gap:6px}
+.filter-row button,.preset-tabs button{background:var(--panel-2);color:var(--muted);border-radius:980px;padding:6px 12px;font-size:12px}
+.filter-row button.active,.preset-tabs button.active{background:var(--text);color:#000}
+.import-tools button{background:none;color:var(--cyan);font-size:13px;padding:6px 0}
+.regime-item{border:0;border-radius:12px;padding:10px 12px}
+.regime-item:hover{background:var(--panel-2)}.regime-item.selected{background:var(--cyan);color:#fff}
+.regime-item.selected small,.regime-item.selected .regime-score{color:rgba(255,255,255,.85)}
+.country-dot{width:10px;height:10px;box-shadow:none}
+.regime-copy strong{font-size:15px;font-weight:600}.regime-copy small{font-size:12px}.regime-score{font:600 13px -apple-system,sans-serif}.regime-score small{display:none}
+/* 地图 */
+.map-toolbar{padding:0 4px 14px;align-items:center}.map-toolbar h1{font-size:28px}
+.map-controls{font-size:13px;gap:10px}.map-controls select,.comparison select{background:var(--panel-2);border:0;border-radius:10px;padding:8px 12px;font-size:13px;color:var(--text)}
+.strict-toggle{font-size:13px}
+.map-stage{height:560px;border-radius:var(--radius)}
+.boundary-notice{background:rgba(28,28,30,.72)!important;backdrop-filter:blur(20px);border:0!important;border-radius:12px;font-size:12px;color:var(--muted)}
+.map-legend{font:12px -apple-system,sans-serif;background:rgba(28,28,30,.72);backdrop-filter:blur(20px);padding:8px 12px;border-radius:12px;left:14px;bottom:14px}
+/* 检查器 */
+.inspector{padding:22px 20px}.inspector h2 span{font:500 17px -apple-system,sans-serif;color:var(--muted)}
+.inspector-header p,.leader-line{font-size:13px;color:var(--muted)}.leader-line b{color:var(--text);font-weight:600}
+.compare-button{background:var(--panel-2);border:0;border-radius:980px;padding:0 14px;height:30px;font-size:12px;color:var(--cyan)}.compare-button.active{background:var(--cyan);color:#fff}
+.metric-strip{border:0;background:var(--panel-2);border-radius:14px;padding:14px 8px}.metric-strip div{border-color:var(--line)}
+.metric-strip small{font:12px -apple-system,sans-serif}.metric-strip strong{font:700 28px -apple-system,sans-serif}.metric-strip em{font:12px -apple-system,sans-serif}
+.chart-card,.capacity-card,.power-card{border:0;background:var(--panel-2);border-radius:14px;padding:16px;margin-top:12px}
+.card-title{font-size:14px;font-weight:600;color:var(--text)}.card-title a,.card-title button{font:13px -apple-system,sans-serif;color:var(--cyan);text-decoration:none}
+.chart-caption,.axis-labels,.weight-footer,.power-cell,.bar-row{font-family:-apple-system,sans-serif;font-size:12px}
+.bar-row b,.power-cell strong,.weight-list b,.weight-total{font-family:-apple-system,sans-serif;font-size:13px}
+.bar-track,.mini-track{background:rgba(255,255,255,.1);border-radius:3px}.bar-track i{background:var(--cyan);border-radius:3px}
+.source-note{font-size:12px;line-height:1.5;color:var(--muted)}
+/* 底部面板 */
+.bottom-grid{gap:16px;margin-top:16px}.timeline,.weight-lab,.comparison{padding:22px}
+.year-display{font:700 28px -apple-system,sans-serif;color:var(--text)}
+.event-node span{background:var(--panel)}.event-node small,.event-node strong,.event-kicker,.event-detail p{font-family:-apple-system,sans-serif}.event-node small{font-size:12px}.event-node strong{font-size:12px}
+.weight-list label{font-size:13px}.weight-list input{accent-color:var(--cyan)}
+/* 抽屉/弹窗 */
+.evidence-drawer,.method-modal{background:rgba(28,28,30,.92);backdrop-filter:blur(30px);border:0;border-radius:var(--radius)}
+.evidence-drawer{border-radius:var(--radius) 0 0 var(--radius)}
+.primary-button{background:var(--cyan);color:#fff;border-radius:980px;padding:10px 20px;font-size:14px;font-weight:600}
+@media(max-width:1200px){.workspace{grid-template-columns:220px minmax(360px,1fr) 360px}}
+@media(max-width:860px){.workspace{grid-template-columns:1fr}.map-stage{height:400px}.topbar{margin:0 -12px;padding:0 12px}}
+.filter-row button{white-space:nowrap;padding:6px 10px}.filter-row{flex-wrap:wrap}
