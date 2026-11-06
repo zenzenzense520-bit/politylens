@@ -20,6 +20,10 @@
       <p class="source-note">OWID 实体：{{ vdemRecord.sourceEntity }}。{{ vdemStatusText }}指数范围 0—1。<a :href="vdemRows[0].url" target="_blank" rel="noopener noreferrer">指标来源 ↗</a> <a :href="vdemDataset?.processingUrl" target="_blank" rel="noopener noreferrer">OWID 方法 ↗</a></p>
       <p v-if="vdemMapping" class="source-note">此处将 RUS 年度序列用于苏联（SUN），依据 V-Dem v16 编码单元 {{ vdemMapping.vdemCountryUnitId }}，仅限 {{ vdemMapping.firstYear }}—{{ vdemMapping.lastYear }} 年。该评分对应 V-Dem 当年的政治单元，不等于本地图所含全部殖民地或边界范围。<a :href="vdemMapping.sourceUrl" target="_blank" rel="noopener noreferrer">编码单元说明 ↗</a></p>
       <p class="source-note">{{ vdemDataset?.note }}</p>
+      <details class="wgi-ts-details">
+        <summary>V-Dem 五指数 1900—2025 长序列</summary>
+        <vdem-timeseries :iso="iso" :year="year" :dataset="vdemDataset" />
+      </details>
     </div>
     <p v-else-if="vdemDataset && iso === 'SUN' && (year === 1922 || year === 1991)" class="source-note">{{ year }} 年处于苏联成立或解体的过渡期，未自动映射 RUS 年度评分。<a :href="vdemDataset.sovietMapping.sourceUrl" target="_blank" rel="noopener noreferrer">V-Dem 编码单元说明 ↗</a></p>
     <p v-else-if="vdemDataset" class="source-note">该国家—年份没有可对应的 V-Dem/OWID 指数。</p>
@@ -73,13 +77,14 @@ import { defineComponent } from 'vue'
 import { eiuFor, eiuDimensions, eiuSource, whitePaper, wgiPairsFor } from '../data/observations'
 // 修改（2026-10-25）：引入单国 WGI 时间序列子组件。
 import WgiTimeseries from './WgiTimeseries.vue'
+import VdemTimeseries from './VdemTimeseries.vue'
 import type { WorldBankDataset } from '../data/observations'
 import { loadWorldBank } from '../api/worldBank'
 import { loadVdem } from '../api/vdem'
 import { vdemFor, vdemMappingFor, type VdemDataset } from '../data/vdem'
 // 修改：机构评分、经济观测、官方制度文本分层展示且年份精确匹配。
 export default defineComponent({
-  components: { WgiTimeseries },
+  components: { WgiTimeseries, VdemTimeseries },
   props: { iso: { type: String, required: true }, year: { type: Number, required: true } },
   data: () => ({ dataset: null as WorldBankDataset | null, error: '', vdemDataset: null as VdemDataset | null, vdemError: '', labels: eiuDimensions, source: eiuSource, paper: whitePaper }),
   computed: {

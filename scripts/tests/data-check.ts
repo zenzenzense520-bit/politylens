@@ -9,7 +9,7 @@ import { buildProfiles } from '../../src/data/profiles'
 import { leaderFor } from '../../src/data/leaders'
 import { regimes } from '../../src/data/regimes'
 import { strategicCoding } from '../../src/data/ppCoding'
-import { vdemCodes, vdemFor, type VdemDataset } from '../../src/data/vdem'
+import { vdemCodes, vdemFor, vdemSeriesFor, type VdemDataset } from '../../src/data/vdem'
 // 修改：回归年份错配、未来边界、缺失零分和苏联身份污染。
 assert.equal(selectBoundary(1938, true).snapshotYear, 1938)
 assert.equal(selectBoundary(1932, true).snapshotYear, 1932)
@@ -251,6 +251,16 @@ assert(vdem.records.every(row => row.year >= 1900 && row.year <= 2025 && row.sou
 assert.equal(typeof vdemFor(vdem, 'DEU', 1932)?.values.v2x_polyarchy, 'number')
 assert.equal(typeof vdemFor(vdem, 'DEU', 1938)?.values.v2x_polyarchy, 'number')
 assert.equal(typeof vdemFor(vdem, 'CHN', 1966)?.values.v2x_polyarchy, 'number')
+// 新增（2026-11-06）：V-Dem 长序列须与 vdemFor 口径一致，且 SUN/RUS 互不串用。
+{
+  const sun = vdemSeriesFor(vdem, 'SUN', 'v2x_polyarchy')
+  assert.deepEqual([sun[0]?.year, sun[sun.length - 1]?.year], [1923, 1990], 'SUN 序列年份应为 1923—1990')
+  assert(sun.every(point => point.status === 'not_imputed'), 'SUN 序列不得含回填行')
+  assert(!vdemSeriesFor(vdem, 'RUS', 'v2x_polyarchy').some(point => point.year >= 1923 && point.year <= 1990), 'RUS 序列不得含 1923—1990')
+  const deu = vdemSeriesFor(vdem, 'DEU', 'v2x_polyarchy')
+  assert(deu.length > 0 && deu.length <= 126, 'DEU 序列年份应在 1900—2025 内')
+  for (const point of deu) assert.equal(point.value, vdemFor(vdem, 'DEU', point.year)?.values.v2x_polyarchy)
+}
 assert.equal(typeof vdemFor(vdem, 'SUN', 1937)?.values.v2x_polyarchy, 'number')
 assert.equal(vdemFor(vdem, 'SUN', 1937)?.iso, 'RUS')
 assert.equal(vdemFor(vdem, 'RUS', 1937), undefined)

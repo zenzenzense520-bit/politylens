@@ -29,3 +29,17 @@ export function vdemFor(dataset: VdemDataset | null, iso: string, year: number):
   if (iso === 'SUN' || (iso === 'RUS' && year >= dataset.sovietMapping.firstYear && year <= dataset.sovietMapping.lastYear)) return undefined
   return dataset.records.find(record => record.iso === iso && record.year === year)
 }
+// 新增（2026-11-06）：单国 V-Dem 长序列。沿用 vdemFor 的口径：SUN 仅 1923—1990 取 RUS 未回填行，RUS 在该区间不展示。
+export interface VdemSeriesPoint { year: number; value: number | null; status: OwidImputationStatus }
+export function vdemSeriesFor(dataset: VdemDataset | null, iso: string, code: VdemIndexCode): VdemSeriesPoint[] {
+  if (!dataset) return []
+  const { sourceIso, targetIso, firstYear, lastYear } = dataset.sovietMapping
+  const points: VdemSeriesPoint[] = []
+  for (let year = dataset.period[0]; year <= dataset.period[1]; year++) {
+    const record = (iso === targetIso && year >= firstYear && year <= lastYear)
+      ? dataset.records.find(row => row.iso === sourceIso && row.year === year && row.owidImputationStatus === 'not_imputed')
+      : vdemFor(dataset, iso, year)
+    if (record) points.push({ year, value: record.values[code], status: record.owidImputationStatus })
+  }
+  return points
+}
