@@ -6,6 +6,7 @@ import { weightedScore } from '../../src/utils/scoring'
 import { calculatePp } from '../../src/utils/powerEquation'
 import { eiuObservations, wgiSeriesFor, type WorldBankDataset } from '../../src/data/observations'
 import { buildProfiles } from '../../src/data/profiles'
+import { leaderFor } from '../../src/data/leaders'
 import { regimes } from '../../src/data/regimes'
 import { strategicCoding } from '../../src/data/ppCoding'
 import { vdemCodes, vdemFor, type VdemDataset } from '../../src/data/vdem'
@@ -48,7 +49,7 @@ interface Manifest { revision: string; rawSnapshots: Snapshot[]; snapshots: (Sna
 interface Properties {
   NAME?: string; SUBJECTO?: string; PARTOF?: string; SOURCE_NAME?: string;
   DISPLAY_NAME?: string; ADMIN_STATUS?: string; LEADER?: string;
-  ADMIN_NAME?: string; TERRITORIAL_STATUS?: string; FromYear?: number; ToYear?: number;
+  LEADER_SOURCE_URL?: string; ADMIN_NAME?: string; TERRITORIAL_STATUS?: string; FromYear?: number; ToYear?: number;
 }
 interface FeatureCollection { type: string; features: { type: string; geometry: { type: string; coordinates: unknown }; properties: Properties }[] }
 const parse = <T>(path: string): T => JSON.parse(readFileSync(path, 'utf8').replace(/^\uFEFF/, '')) as T
@@ -131,6 +132,14 @@ const clio1938 = clioSnapshots.find(row => row.year === 1938)!.geo.features
 assert(clio1938.some(feature => feature.properties.SOURCE_NAME === 'Manchukuo' && feature.properties.ADMIN_NAME === 'Manchukuo' && feature.properties.TERRITORIAL_STATUS === 'puppet'))
 const clio2024 = clioSnapshots.find(row => row.year === 2024)!.geo.features
 assert(clio2024.some(feature => feature.properties.SOURCE_NAME === 'Russian-occupied territories' && feature.properties.ADMIN_NAME === 'Russian Federation' && feature.properties.TERRITORIAL_STATUS === 'de_facto_control'))
+// 修改：新增四国档案后，2024 ClioPatria 对应主权面必须同步展示已核验档案中的领导人和来源。
+for (const [adminName, profileId] of [['Republic of Korea', 'KOR-2024'], ['Republic of Brazil', 'BRA-2024'], ['South Africa', 'ZAF-2024'], ['Ukraine', 'UKR-2024']]) {
+  const profile = leaderFor(profileId)
+  assert(profile, `${profileId} 缺少领导人来源档案`)
+  const features = clio2024.filter(feature => feature.properties.ADMIN_NAME === adminName)
+  assert(features.length > 0, `2024 ClioPatria 缺少 ${adminName}`)
+  assert(features.every(feature => feature.properties.LEADER === profile.leader && feature.properties.LEADER_SOURCE_URL === profile.sourceUrl), `${adminName} 边界面领导人/来源与档案不一致`)
+}
 for (const { year, geo } of clioSnapshots) {
   const chinese = geo.features.filter(feature => ['Qing Empire', 'Empire of China', 'Republic of China', "People's Republic of China"].includes(feature.properties.ADMIN_NAME ?? ''))
   assert(chinese.some(feature => geometryContains([85, 42], feature.geometry)), `${year} 年新疆参考点未落入中国政治实体`)

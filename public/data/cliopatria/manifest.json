@@ -2,7 +2,7 @@
   "source": "https://github.com/Seshat-Global-History-Databank/cliopatria",
   "sourceCommit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
   "sourceName": "cliopatria_polities_only_v012",
-  "retrievedAt": "2026-09-19T08:36:35.799Z",
+  "retrievedAt": "2026-11-04T06:39:06.554Z",
   "license": "CC BY 4.0",
   "sourceSha256": "5df3b5868cfab8f76030853fa2346ed3cd71171ad807b6f72d783ee2dce6839e",
   "policyVersion": "2026-09-19",
@@ -168,7 +168,7 @@
       "year": 2024,
       "filename": "2020s/world_2024.geojson",
       "features": 192,
-      "sha256": "68bc45ecc3eb77191699e05f0b8272ac6f4439d4509a396a400fe8363fe18048"
+      "sha256": "585ea6b1abafc3c4da5f81e341a219ca8803393066ce1cc8b68925639800f239"
     }
   ]
 }

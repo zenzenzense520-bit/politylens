@@ -60,6 +60,8 @@ const leaderIds = new Map<string, string>([
   ['2024:Japan', 'JPN-2024'], ['2024:United Kingdom', 'GBR-2024'],
   ['2024:French Fifth Republic', 'FRA-2024'], ['2024:Republic of India', 'IND-2024'],
   ['2024:Russian Federation', 'RUS-2024'],
+  ['2024:Republic of Korea', 'KOR-2024'], ['2024:Republic of Brazil', 'BRA-2024'],
+  ['2024:South Africa', 'ZAF-2024'], ['2024:Ukraine', 'UKR-2024'],
 ])
 
 function cleanComposite(value: string): string {
