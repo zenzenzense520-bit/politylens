@@ -2,7 +2,7 @@
   "source": "https://github.com/Seshat-Global-History-Databank/cliopatria",
   "sourceCommit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
   "sourceName": "cliopatria_polities_only_v012",
-  "retrievedAt": "2026-11-04T06:39:06.554Z",
+  "retrievedAt": "2026-11-06T12:23:19.567Z",
   "license": "CC BY 4.0",
   "sourceSha256": "5df3b5868cfab8f76030853fa2346ed3cd71171ad807b6f72d783ee2dce6839e",
   "policyVersion": "2026-09-19",
@@ -150,19 +150,19 @@
       "year": 2000,
       "filename": "2000s/world_2000.geojson",
       "features": 189,
-      "sha256": "6a284bf28ec0a50c7c936bd82c1f9c911765690168f95d734061fd27c908d24a"
+      "sha256": "23ce42725dfdde122a846b6ba7bc41d2dcf156ffa831ae00a2efe76385069e3c"
     },
     {
       "year": 2010,
       "filename": "2010s/world_2010.geojson",
       "features": 188,
-      "sha256": "8405550ff7bd3854d3bab29cf822cf8a7601b5250e4fc2a2447e61510fdf169d"
+      "sha256": "dcf4eee4955b1c664f8f1a6cf43d3e9ba9a1216059039a90b56317f4ca0e158f"
     },
     {
       "year": 2020,
       "filename": "2020s/world_2020.geojson",
       "features": 192,
-      "sha256": "4e098450071e0a1c97b37a80a619bfecc3438918f2f294043e037ecf2b366250"
+      "sha256": "cd7653f07fb3a5de55b8b45025a10ab974c7d8101b892559d4135d558e65bb84"
     },
     {
       "year": 2024,

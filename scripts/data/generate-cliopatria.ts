@@ -64,6 +64,16 @@ const leaderIds = new Map<string, string>([
   ['2024:South Africa', 'ZAF-2024'], ['2024:Ukraine', 'UKR-2024'],
 ])
 
+// 新增（2026-11-06）：十二国 2000/2010/2020 年快照的边界面领导人映射；美国 2020 沿用 usa-2020。
+for (const year of [2000, 2010, 2020]) {
+  for (const [adminName, iso] of [['People\'s Republic of China', 'CHN'], ['United States of America', 'USA'], ['Federated Republic of Germany', 'DEU'],
+    ['Japan', 'JPN'], ['United Kingdom', 'GBR'], ['French Fifth Republic', 'FRA'], ['Republic of India', 'IND'], ['Russian Federation', 'RUS'],
+    ['Republic of Korea', 'KOR'], ['Republic of Brazil', 'BRA'], ['South Africa', 'ZAF'], ['Ukraine', 'UKR']]) {
+    if (year === 2020 && iso === 'USA') continue
+    leaderIds.set(`${year}:${adminName}`, `${iso}-${year}`)
+  }
+}
+
 function cleanComposite(value: string): string {
   const trimmed = value.trim()
   return trimmed.startsWith('(') && trimmed.endsWith(')') ? trimmed.slice(1, -1) : trimmed

@@ -140,6 +140,19 @@ for (const [adminName, profileId] of [['Republic of Korea', 'KOR-2024'], ['Repub
   assert(features.length > 0, `2024 ClioPatria 缺少 ${adminName}`)
   assert(features.every(feature => feature.properties.LEADER === profile.leader && feature.properties.LEADER_SOURCE_URL === profile.sourceUrl), `${adminName} 边界面领导人/来源与档案不一致`)
 }
+// 新增（2026-11-06）：2000/2010/2020 快照中十二国主权面必须带有对应领导人档案与来源，且无“待补充”。
+for (const year of [2000, 2010, 2020]) {
+  const features = clioSnapshots.find(row => row.year === year)!.geo.features
+  for (const [adminName, iso] of [["People's Republic of China", 'CHN'], ['United States of America', 'USA'], ['Federated Republic of Germany', 'DEU'],
+    ['Japan', 'JPN'], ['United Kingdom', 'GBR'], ['French Fifth Republic', 'FRA'], ['Republic of India', 'IND'], ['Russian Federation', 'RUS'],
+    ['Republic of Korea', 'KOR'], ['Republic of Brazil', 'BRA'], ['South Africa', 'ZAF'], ['Ukraine', 'UKR']]) {
+    const profile = year === 2020 && iso === 'USA' ? leaderFor('usa-2020') : leaderFor(`${iso}-${year}`)
+    assert(profile?.sourceUrl.startsWith('https://en.wikipedia.org/wiki/List_of_state_leaders') || profile?.sourceUrl.startsWith('https://en.wikipedia.org/wiki/2020_in'), `${iso}-${year} 缺少领导人来源`)
+    const matched = features.filter(feature => feature.properties.ADMIN_NAME === adminName)
+    assert(matched.length > 0, `${year} ClioPatria 缺少 ${adminName}`)
+    assert(matched.every(feature => feature.properties.LEADER === profile.leader && feature.properties.LEADER_SOURCE_URL === profile.sourceUrl), `${year} ${adminName} 边界面领导人/来源与档案不一致`)
+  }
+}
 for (const { year, geo } of clioSnapshots) {
   const chinese = geo.features.filter(feature => ['Qing Empire', 'Empire of China', 'Republic of China', "People's Republic of China"].includes(feature.properties.ADMIN_NAME ?? ''))
   assert(chinese.some(feature => geometryContains([85, 42], feature.geometry)), `${year} 年新疆参考点未落入中国政治实体`)
